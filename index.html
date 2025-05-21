@@ -4,27 +4,37 @@
     <link href="./bootstrap-5.3.6-dist/css/bootstrap.min.css" rel="stylesheet" >
     <link href="./styles.css" rel="stylesheet">
     <script src="./bootstrap-5.3.6-dist/js/bootstrap.bundle.min.js"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movilar - Movie Recommendations</title>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-movilar fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Movilar</a>
+        <div class="container-fluid ">
+            <a class="navbar-logo" href="index.html">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+                <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/>
+            </svg>
+                Movilar
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavMovilar" aria-controls="navbarNavMovilar" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavMovilar">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#browse">Browse</a>
+                        <a class="nav-link" href="browse.html">Browse</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#search">Search</a>
+                        <a class="nav-link" href="search.html">Search</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#similar">Find Similar</a>
+                        <a class="nav-link" href="similar.html">Find Similar</a>
                     </li>
                 </ul>
             </div>
@@ -32,108 +42,77 @@
     </nav>
 
     <main>
-        <!-- Browse Section -->
-        <section id="browse" class="browse-section">
-            <div class="container">
-                <h2 class="text-center">Browse Popular Movies</h2>
-                <div class="row">
-                    <!-- Example Movie Card 1 -->
-                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                        <article class="card movie-card h-100">
-                            <img src="https://via.placeholder.com/500x750/1a1a1a/1DB954?text=Movie+Poster" class="card-img-top" alt="Movie Poster">
-                            <div class="card-body">
-                                <h5 class="card-title">The Green Mile</h5>
-                                <p class="card-text">A tale of a death row corrections officer during the Great Depression who witnesses supernatural events.</p>
-                            </div>
-                            <div class="card-footer">
-                                <small>Drama | 1999</small>
-                            </div>
-                        </article>
+        <!-- Hero -->
+        <section class="hero-section">
+            <div class="container text-center">
+                <h1 class="display-1 mb-4">Welcome to Movilar</h1>
+                <p class="lead mb-5">Movilar helps you find the best movie to enjoy the movie night.</p>
+                <div class="row justify-content-center gap-3 mb-5">
+                    <div class="col-md-3">
+                        <a href="browse.html" class="btn btn-lg btn-movilar-green w-100">Browse Movies</a>
                     </div>
-                    <!-- Example Movie Card 2 -->
-                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                        <article class="card movie-card h-100">
-                            <img src="https://via.placeholder.com/500x750/1a1a1a/1DB954?text=Movie+Poster" class="card-img-top" alt="Movie Poster">
-                            <div class="card-body">
-                                <h5 class="card-title">Matrix Reloaded</h5>
-                                <p class="card-text">Neo and the rebel leaders estimate that they have 72 hours until Zion falls under siege to the Machine Army.</p>
-                            </div>
-                            <div class="card-footer">
-                                <small>Sci-Fi | 2003</small>
-                            </div>
-                        </article>
-                    </div>
-                    <!-- Example Movie Card 3 -->
-                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                        <article class="card movie-card h-100">
-                            <img src="https://via.placeholder.com/500x750/1a1a1a/1DB954?text=Movie+Poster" class="card-img-top" alt="Movie Poster">
-                            <div class="card-body">
-                                <h5 class="card-title">Black Panther</h5>
-                                <p class="card-text">T'Challa, heir to the hidden but advanced kingdom of Wakanda, must step forward to lead his people.</p>
-                            </div>
-                            <div class="card-footer">
-                                <small>Action | 2018</small>
-                            </div>
-                        </article>
-                    </div>
-                    <!-- Example Movie Card 4 -->
-                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                        <article class="card movie-card h-100">
-                            <img src="https://via.placeholder.com/500x750/1a1a1a/1DB954?text=Movie+Poster" class="card-img-top" alt="Movie Poster">
-                            <div class="card-body">
-                                <h5 class="card-title">Avatar: The Way of Water</h5>
-                                <p class="card-text">Jake Sully lives with his newfound family formed on the extrasolar moon Pandora.</p>
-                            </div>
-                            <div class="card-footer">
-                                <small>Sci-Fi | 2022</small>
-                            </div>
-                        </article>
+                    <div class="col-md-3">
+                        <a href="search.html" class="btn btn-lg btn-movilar-outline w-100">Search Movies</a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Search Section -->
-        <section id="search" class="search-section">
+        <!-- Features -->
+        <section class="features-section">
             <div class="container">
-                <h2 class="text-center">Search for Movies</h2>
-                <form class="row g-3 justify-content-center align-items-center">
-                    <div class="col-md-6 col-lg-5">
-                        <label for="searchInput" class="visually-hidden">Search Movie</label>
-                        <input type="search" class="form-control form-control-lg" id="searchInput" placeholder="Enter movie title, actor, genre...">
+                <h2 class="text-center mb-5">Discover Movies Like Never Before</h2>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="feature-card">
+                            <div class="feature-icon mb-4">
+                                <i class="bi bi-collection-play"></i>
+                            </div>
+                            <h3>Browse Popular Titles</h3>
+                            <p>Explore trending and popular movies from various genres and eras.</p>
+                            <a href="browse.html" class="btn btn-sm btn-movilar-green mt-3">Start Browsing</a>
+                        </div>
                     </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-lg btn-movilar-green">Search</button>
+                    <div class="col-md-4">
+                        <div class="feature-card">
+                            <div class="feature-icon mb-4">
+                                <i class="bi bi-search"></i>
+                            </div>
+                            <h3>Search Any Movie</h3>
+                            <p>Find specific movies by title, actor, director, or genre.</p>
+                            <a href="search.html" class="btn btn-sm btn-movilar-green mt-3">Search Now</a>
+                        </div>
                     </div>
-                </form>
+                    <div class="col-md-4">
+                        <div class="feature-card">
+                            <div class="feature-icon mb-4">
+                                <i class="bi bi-shuffle"></i>
+                            </div>
+                            <h3>Find Similar Movies</h3>
+                            <p>Discover new titles based on movies you already love.</p>
+                            <a href="similar.html" class="btn btn-sm btn-movilar-green mt-3">Find Similar</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- Find Similar Movies Section -->
-        <section id="similar" class="similar-section">
-            <div class="container">
-                <h2 class="text-center">Find Similar Movies</h2>
-                <p class="text-center lead mb-4">Select a movie you like, and we'll find similar ones for you!</p>
-                <form class="row g-3 justify-content-center align-items-center">
-                    <div class="col-md-6 col-lg-5">
-                        <label for="similarMovieInput" class="visually-hidden">Enter Movie for Similarity Search</label>
-                        <input type="text" class="form-control form-control-lg" id="similarMovieInput" placeholder="Enter a movie title to find similar ones...">
-                    </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-lg btn-movilar-green">Find Similar</button>
-                    </div>
-                </form>
-                <div class="results-area mt-5">
-                    <p class="text-center text-muted">Similar movie recommendations will appear here.</p>
-                </div>
+        <section class="cta-section">
+            <div class="container text-center">
+                <h2 class="mb-4">Ready to Discover Your Next Favorite Movie?</h2>
+                <a href="browse.html" class="btn btn-lg btn-movilar-green">Get Started</a>
             </div>
         </section>
     </main>
 
     <footer class="footer-movilar text-center">
         <div class="container">
-            <p>&copy; 2024 Movilar. All rights reserved.</p>
-            <p>Designed with <a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer">Bootstrap</a> and love for movies.</p>
+            <p style="font-weight: 600;">Designed by</p>
+            <p>Adem Özyılmaz</p>
+            <p>Melih Eren Mallı</p>
+            <p>Muhammed Gökhan Perçem</p>
+            <p>Muhammet Furkan Kaplan</p>
+            <p style="font-weight: 600;">for the Web Technologies Class 2025 - Kocaeli University</p>
         </div>
     </footer>
 </body>
