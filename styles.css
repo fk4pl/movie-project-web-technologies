@@ -1,0 +1,177 @@
+body {
+    background-color: #000000; /* Black background */
+    color: #e0e0e0; /* Light gray text */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-top: 70px; /* Adjust based on actual navbar height */
+}
+
+/* Navbar */
+.navbar-movilar {
+    background-color: #0a0a0a; /* Very dark gray, almost black */
+    border-bottom: 1px solid #1DB954; /* Green accent border */
+}
+
+.navbar-movilar .navbar-brand {
+    color: #1DB954; /* Green brand text */
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.navbar-movilar .navbar-brand:hover {
+    color: #ffffff; /* White on hover */
+}
+
+.navbar-movilar .nav-link {
+    color: #a0a0a0; /* Medium gray for nav links */
+}
+
+.navbar-movilar .nav-link:hover,
+.navbar-movilar .nav-link.active {
+    color: #1DB954; /* Green for active/hover nav links */
+}
+
+/* Custom toggler icon color for dark navbar */
+.navbar-movilar .navbar-toggler {
+    border-color: rgba(29, 185, 84, 0.5); /* Greenish border */
+}
+.navbar-movilar .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2829, 185, 84, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Sections */
+section {
+    padding: 60px 0;
+}
+
+section h2 {
+    color: #1DB954; /* Green section headings */
+    margin-bottom: 40px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+/* Browse Section specific - uses body background */
+.browse-section {
+    /* Default black background from body */
+}
+
+/* Movie Card */
+.movie-card {
+    background-color: #1a1a1a; /* Dark gray card background */
+    border: 1px solid #222222; /* Slightly lighter border */
+    border-radius: 8px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    color: #e0e0e0; /* Light text color for card content */
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(29, 185, 84, 0.2); /* Subtle green shadow */
+}
+
+.movie-card img {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    object-fit: cover; /* Ensures images cover the area well */
+    max-height: 400px; /* Or adjust as needed */
+}
+
+.movie-card .card-body {
+    padding: 1.25rem;
+}
+
+.movie-card .card-title {
+    color: #1DB954; /* Green card titles */
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.movie-card .card-text {
+    color: #b0b0b0; /* Lighter gray for card text */
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.movie-card .card-footer {
+    background-color: #111111; /* Very dark footer background */
+    border-top: 1px solid #222222;
+    color: #888888; /* Muted text for footer */
+    font-size: 0.8rem;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    padding: 0.75rem 1.25rem;
+}
+
+/* Search Section */
+.search-section {
+    background-color: #080808; /* Slightly different dark background */
+}
+
+.search-section .form-control,
+.similar-section .form-control {
+    background-color: #222222; /* Dark input background */
+    border: 1px solid #333333;
+    color: #ffffff; /* White text in input */
+}
+
+.search-section .form-control::placeholder,
+.similar-section .form-control::placeholder {
+    color: #777777; /* Gray placeholder text */
+}
+
+.search-section .form-control:focus,
+.similar-section .form-control:focus {
+    background-color: #333333;
+    border-color: #1DB954; /* Green border on focus */
+    box-shadow: 0 0 0 0.2rem rgba(29, 185, 84, 0.25); /* Green shadow on focus */
+    color: #ffffff;
+}
+
+/* Similar Movies Section specific - uses body background */
+.similar-section {
+    /* Default black background from body */
+}
+.similar-section .lead {
+    color: #a0a0a0;
+}
+.similar-section .text-muted {
+    color: #6c757d !important; /* Bootstrap muted color, ensure it's visible */
+}
+
+/* Custom Button */
+.btn-movilar-green {
+    background-color: #1DB954; /* Green button */
+    color: #ffffff; /* White text on button */
+    border: none;
+    padding: 0.6rem 1.5rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.btn-movilar-green:hover {
+    background-color: #1aa049; /* Darker green on hover */
+    color: #ffffff;
+}
+
+/* Footer */
+.footer-movilar {
+    background-color: #0a0a0a; /* Very dark gray footer background */
+    color: #777777; /* Muted text color for footer */
+    padding: 30px 0;
+    border-top: 1px solid #1DB954; /* Green accent border */
+}
+
+.footer-movilar p {
+    margin-bottom: 0.5rem;
+}
+
+.footer-movilar a {
+    color: #1DB954; /* Green links in footer */
+    text-decoration: none;
+}
+
+.footer-movilar a:hover {
+    color: #ffffff; /* White on hover */
+    text-decoration: underline;
+}
