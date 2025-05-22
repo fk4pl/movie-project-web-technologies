@@ -7,18 +7,14 @@ body {
     padding-top: 70px;
 }
 
-.montserrat-title {
-  font-family: "Montserrat", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 800;
-  font-style: normal;
-}
-
+/* Üst navbarın renkleri */
 .navbar-movilar {
     background-color: #0a0a0a;
     border-bottom: 1px solid #1DB954;
 }
 
+
+/* Navbar'daki logo yazısının renkleri ve özellikleri */
 .navbar-movilar .navbar-logo {
     color: #1DB954;
     font-weight: bold;
@@ -30,16 +26,16 @@ body {
     color: #ffffff;
 }
 
+/* Navbar'daki butonların özellikleri */
 .navbar-movilar .nav-link {
     color: #a0a0a0;
 }
-
 .navbar-movilar .nav-link:hover,
 .navbar-movilar .nav-link.active {
     color: #1DB954;
 }
 
-
+/* Hamburger menu ikonu */
 .navbar-movilar .navbar-toggler {
     border-color: rgba(29, 185, 84, 0.5);
 }
@@ -47,9 +43,13 @@ body {
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2829, 185, 84, 0.8%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
+
+/* Bölümler arası boşluklar */
 section {
     padding: 60px 0;
 }
+
+/* Bölüm başlıkları */
 
 section h2 {
     color: #1DB954;
@@ -60,7 +60,7 @@ section h2 {
 }
 
 
-
+/* Ana buton özellikleri */
 .btn-movilar-green {
     background-color: #1DB954;
     color: #ffffff;
@@ -70,11 +70,27 @@ section h2 {
     transition: background-color 0.2s ease-in-out;
 }
 
+/* İkincil buton özellikleri*/
+.btn-movilar-outline {
+    background-color: transparent;
+    color: #1DB954;
+    border: 2px solid #1DB954;
+    padding: 0.6rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-movilar-outline:hover {
+    background-color: #1DB954;
+    color: #ffffff;
+}
+
 .btn-movilar-green:hover {
     background-color: #1aa049;
     color: #ffffff;
 }
 
+/* Footer özellikleri */
 
 .footer-movilar {
     background-color: #0a0a0a;
@@ -84,7 +100,7 @@ section h2 {
 }
 
 .footer-movilar p {
-    margin-bottom: 0.5rem;
+    margin-bottom: 8px;
 }
 
 .footer-movilar a {
@@ -97,13 +113,7 @@ section h2 {
     text-decoration: underline;
 }
 
-.hero-section {
-    background-color: #070707;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url('https://via.placeholder.com/1920x1080/1a1a1a/1DB954?text=Movilar+Hero+Image');
-    background-size: cover;
-    background-position: center;
-    padding: 120px 0 80px;
-}
+/* Hero bölümü yazı özellikleri */
 
 .hero-section h1 {
     color: #1DB954;
@@ -119,19 +129,7 @@ section h2 {
     margin: 0 auto;
 }
 
-.btn-movilar-outline {
-    background-color: transparent;
-    color: #1DB954;
-    border: 2px solid #1DB954;
-    padding: 0.6rem 1.5rem;
-    font-weight: 500;
-    transition: all 0.2s ease-in-out;
-}
-
-.btn-movilar-outline:hover {
-    background-color: #1DB954;
-    color: #ffffff;
-}
+/* Ana sayfadaki özellik kartları */
 
 .features-section {
     background-color: #0a0a0a;
