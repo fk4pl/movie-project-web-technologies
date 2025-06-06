@@ -1,69 +1,698 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
-    <!-- Bootstrap CSS ve JS importlama -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" "></script>
-    <!-- Stylesheet importlama -->
-    <link href="./styles.css" rel="stylesheet">
-    <!-- Google Fonts importlama -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <!-- Meta taglar -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Browse Movies - Movilar</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Browse Movies</title>
+  <link href="styles.css" rel="stylesheet" />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-movilar fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-logo" href="index.html">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
-                <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/>
-            </svg>
-                Movilar
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavMovilar" aria-controls="navbarNavMovilar" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavMovilar">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="browse.html">Browse</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="search.html">Search</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="similar.html">Find Similar</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-movilar fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-logo d-flex align-items-center" href="index.html">
+        <img src="logo.png" alt="Movilar Logo" style="height:32px;width:32px;margin-right:8px;">
+        <span style="font-weight:bold;font-size:1.5rem;letter-spacing:1px;">Movilar</span>
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Ana Sayfa</a></li>
+          <li class="nav-item">
+            <a class="nav-link active" href="browse.html">Browse</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="search.html">Search</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-    <main>
-        <section id="browse">
-            <div class="container">
-                <h2 class="text-center">Browse Popular Movies</h2>
-                
-                <p class="text-center">TODO</p>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer Bölümü -->
-    <footer class="footer-movilar text-center">
-        <div class="container">
-            <p style="font-weight: 600;">Designed by</p>
-            <p>Adem Özyılmaz</p>
-            <p>Melih Eren Mallı</p>
-            <p>Muhammed Gökhan Perçem</p>
-            <p>Muhammet Furkan Kaplan</p>
-            <p style="font-weight: 600;">for the Web Technologies Class 2025 - Kocaeli University</p>
+  <main class="container-fluid mt-4">
+    <div class="row">
+      <!-- Sol panel: filtreler -->
+      <aside class="col-lg-3 mb-4">
+        <!-- 0) Sıralama Seçimi -->
+        <div class="mb-4">
+          <label for="sortSelect" class="filter-label">Sırala:</label>
+          <select id="sortSelect" class="form-select mt-2">
+            <option value="">Sıralama Yok</option>
+            <option value="popularity.desc">Popülerlik (Yüksek → Düşük)</option>
+            <option value="popularity.asc">Popülerlik (Düşük → Yüksek)</option>
+            <option value="release_date.desc">Yayın Tarihi (Yeni → Eski)</option>
+            <option value="release_date.asc">Yayın Tarihi (Eski → Yeni)</option>
+          </select>
         </div>
-    </footer>
+
+        <!-- 1) Yıl Slider -->
+        <div class="mb-4">
+          <label for="yearSlider" class="filter-label">Yıl Seçimi:</label>
+          <span id="yearValue" class="filter-value">Tümü</span>
+          <input
+            type="range"
+            class="form-range"
+            min="1900"
+            max="2025"
+            value="2025"
+            id="yearSlider"
+          />
+        </div>
+
+        <!-- 2) IMDb Puan Slider -->
+        <div class="mb-4">
+          <label for="ratingSlider" class="filter-label">TMDB Puan en az:</label>
+          <span id="ratingValue" class="filter-value">0.0</span>
+          <input
+            type="range"
+            class="form-range"
+            min="0"
+            max="10"
+            step="0.1"
+            value="0"
+            id="ratingSlider"
+          />
+        </div>
+
+        <!-- 3) Tür Tablosu -->
+        <div class="mb-4">
+          <p class="filter-label mb-2">Tür Seçimi:</p>
+          <table class="table table-borderless genre-table">
+            <tbody>
+              <tr>
+                <td>
+                  <input type="checkbox" value="10751" class="genre-checkbox" id="genreFamily" />
+                  <label for="genreFamily">Aile</label>
+                </td>
+                <td>
+                  <input type="checkbox" value="28" class="genre-checkbox" id="genreAction" />
+                  <label for="genreAction">Aksiyon</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" value="16" class="genre-checkbox" id="genreAnimation" />
+                  <label for="genreAnimation">Animasyon</label>
+                </td>
+                <td>
+                  <input type="checkbox" value="35" class="genre-checkbox" id="genreComedy" />
+                  <label for="genreComedy">Komedi</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" value="18" class="genre-checkbox" id="genreDrama" />
+                  <label for="genreDrama">Drama</label>
+                </td>
+                <td>
+                  <input type="checkbox" value="27" class="genre-checkbox" id="genreHorror" />
+                  <label for="genreHorror">Korku</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" value="99" class="genre-checkbox" id="genreDocumentary" />
+                  <label for="genreDocumentary">Belgesel</label>
+                </td>
+                <td>
+                  <input type="checkbox" value="878" class="genre-checkbox" id="genreSciFi" />
+                  <label for="genreSciFi">Bilim Kurgu</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" value="14" class="genre-checkbox" id="genreFantasy" />
+                  <label for="genreFantasy">Fantastik</label>
+                </td>
+                <td>
+                  <input type="checkbox" value="53" class="genre-checkbox" id="genreThriller" />
+                  <label for="genreThriller">Gerilim</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" value="10749" class="genre-checkbox" id="genreRomance" />
+                  <label for="genreRomance">Romantik</label>
+                </td>
+                <td>
+                  <input type="checkbox" value="80" class="genre-checkbox" id="genreCrime" />
+                  <label for="genreCrime">Suç</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" value="12" class="genre-checkbox" id="genreAdventure" />
+                  <label for="genreAdventure">Macera</label>
+                </td>
+                <td>
+                  <input type="checkbox" value="36" class="genre-checkbox" id="genreHistory" />
+                  <label for="genreHistory">Tarih</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" value="37" class="genre-checkbox" id="genreWestern" />
+                  <label for="genreWestern">Western</label>
+                </td>
+                <td>
+                  <input type="checkbox" value="10752" class="genre-checkbox" id="genreWar" />
+                  <label for="genreWar">Savaş</label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 4) Ülke Tablosu -->
+        <div class="mb-4">
+          <p class="filter-label mb-2">Ülke Seçimi:</p>
+          <table class="table table-borderless country-table">
+            <tbody>
+              <tr>
+                <td>
+                  <input type="checkbox" value="US" class="country-checkbox" id="countryUS" />
+                  <label for="countryUS">ABD</label>
+                </td>
+                <td>
+                  <input type="checkbox" value="GB" class="country-checkbox" id="countryGB" />
+                  <label for="countryGB">Birleşik Krallık</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" value="TR" class="country-checkbox" id="countryTR" />
+                  <label for="countryTR">Türkiye</label>
+                </td>
+                <td>
+                  <input type="checkbox" value="FR" class="country-checkbox" id="countryFR" />
+                  <label for="countryFR">Fransa</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" value="DE" class="country-checkbox" id="countryDE" />
+                  <label for="countryDE">Almanya</label>
+                </td>
+                <td>
+                  <input type="checkbox" value="JP" class="country-checkbox" id="countryJP" />
+                  <label for="countryJP">Japonya</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" value="IN" class="country-checkbox" id="countryIN" />
+                  <label for="countryIN">Hindistan</label>
+                </td>
+                <td>
+                  <input type="checkbox" value="CA" class="country-checkbox" id="countryCA" />
+                  <label for="countryCA">Kanada</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" value="IT" class="country-checkbox" id="countryIT" />
+                  <label for="countryIT">İtalya</label>
+                </td>
+                <td>
+                  <input type="checkbox" value="ES" class="country-checkbox" id="countryES" />
+                  <label for="countryES">İspanya</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" value="AU" class="country-checkbox" id="countryAU" />
+                  <label for="countryAU">Avustralya</label>
+                </td>
+                <td>
+                  <input type="checkbox" value="KR" class="country-checkbox" id="countryKR" />
+                  <label for="countryKR">Güney Kore</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" value="CN" class="country-checkbox" id="countryCN" />
+                  <label for="countryCN">Çin</label>
+                </td>
+                <td>
+                  <input type="checkbox" value="BR" class="country-checkbox" id="countryBR" />
+                  <label for="countryBR">Brezilya</label>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </aside>
+
+      <!-- Sağ panel: Filmler -->
+      <section class="col-lg-9">
+        <div id="moviesContainer" class="row gy-4">
+          <!-- JS ile film kartları eklenecek -->
+        </div>
+        <div id="loadMoreContainer" class="text-center my-4"></div>
+
+        <!-- Sayfa Geçiş Butonları -->
+        <nav aria-label="Sayfa Geçişi" class="mt-4">
+          <ul class="pagination justify-content-center" id="paginationControls">
+            <li class="page-item" id="prevPage">
+              <button class="page-link">Önceki</button>
+            </li>
+            <li class="page-item disabled">
+              <span class="page-link" id="currentPageDisplay">1 / 1</span>
+            </li>
+            <li class="page-item" id="nextPage">
+              <button class="page-link">Sonraki</button>
+            </li>
+          </ul>
+        </nav>
+      </section>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer-movilar text-center py-4 mt-4">
+    <p class="mb-0">Movilar</p>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- TMDB + OMDb JS -->
+  <script>
+    const API_KEY      = '8c45f976cf5bf09078e4ad738b6a2127'; // Sizin TMDB API anahtarınız
+    const OMDB_API_KEY = 'e1928ae1';                         // Sizin OMDb API anahtarınız
+    const BASE_URL     = 'https://api.themoviedb.org/3';
+    const IMG_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+
+    // DOM elemanları
+    const sortSelect         = document.getElementById('sortSelect');
+    const yearSlider         = document.getElementById('yearSlider');
+    const ratingSlider       = document.getElementById('ratingSlider');
+    const yearValueLabel     = document.getElementById('yearValue');
+    const ratingValueLabel   = document.getElementById('ratingValue');
+    const genreCheckboxes    = Array.from(document.querySelectorAll('.genre-checkbox'));
+    const countryCheckboxes  = Array.from(document.querySelectorAll('.country-checkbox'));
+    const moviesContainer    = document.getElementById('moviesContainer');
+    const prevPageBtn        = document.getElementById('prevPage');
+    const nextPageBtn        = document.getElementById('nextPage');
+    const currentPageDisplay = document.getElementById('currentPageDisplay');
+
+    let currentPage = 1;
+    let totalPages  = 1;
+    let loadedApiPages = 5;
+    let allResults = [];
+    const MAX_YEAR      = parseInt(yearSlider.max, 10); // 2025
+    const MAX_PAGE_LIMIT = 99;
+
+    // Yıl etiketini güncelleyen yardımcı fonksiyon
+    function updateYearLabel(val) {
+      yearValueLabel.textContent = parseInt(val, 10) === MAX_YEAR ? 'Tümü' : val;
+    }
+    updateYearLabel(yearSlider.value);
+
+    // Filtreleri localStorage'a kaydet
+    function saveFiltersToStorage() {
+      const filters = {
+        year: yearSlider.value,
+        rating: ratingSlider.value,
+        sort: sortSelect.value,
+        genres: genreCheckboxes.filter(cb => cb.checked).map(cb => cb.value),
+        countries: countryCheckboxes.filter(cb => cb.checked).map(cb => cb.value),
+        page: currentPage
+      };
+      localStorage.setItem('movilarFilters', JSON.stringify(filters));
+    }
+    // localStorage'dan filtreleri yükle
+    function loadFiltersFromStorage() {
+      const filters = JSON.parse(localStorage.getItem('movilarFilters') || '{}');
+      if (filters.year) yearSlider.value = filters.year;
+      if (filters.rating) ratingSlider.value = filters.rating;
+      if (filters.sort) sortSelect.value = filters.sort;
+      if (Array.isArray(filters.genres)) {
+        genreCheckboxes.forEach(cb => { cb.checked = filters.genres.includes(cb.value); });
+      }
+      if (Array.isArray(filters.countries)) {
+        countryCheckboxes.forEach(cb => { cb.checked = filters.countries.includes(cb.value); });
+      }
+      if (filters.page) currentPage = parseInt(filters.page, 10);
+      updateYearLabel(yearSlider.value);
+      ratingValueLabel.textContent = ratingSlider.value;
+      // Geri dönüldüğünde currentPage, yüklenmiş film sayısına göre ayarlanmalı
+      setTimeout(() => {
+        const PAGE_SIZE = 16;
+        const maxPage = Math.max(1, Math.ceil((loadedApiPages * 20) / PAGE_SIZE));
+        if (currentPage > maxPage) {
+          currentPage = maxPage;
+        }
+      }, 0);
+    }
+
+    // Filtre event’leri
+    yearSlider.addEventListener('input', () => updateYearLabel(yearSlider.value));
+    yearSlider.addEventListener('change', () => {
+      currentPage = 1;
+      saveFiltersToStorage();
+      fetchAndDisplayMovies({resetPages: true});
+    });
+    ratingSlider.addEventListener('input', () => {
+      ratingValueLabel.textContent = ratingSlider.value;
+    });
+    ratingSlider.addEventListener('change', () => {
+      currentPage = 1;
+      saveFiltersToStorage();
+      fetchAndDisplayMovies({resetPages: true});
+    });
+    sortSelect.addEventListener('change', () => {
+      currentPage = 1;
+      saveFiltersToStorage();
+      fetchAndDisplayMovies({resetPages: true});
+    });
+    genreCheckboxes.forEach(cb => cb.addEventListener('change', () => {
+      currentPage = 1;
+      saveFiltersToStorage();
+      fetchAndDisplayMovies({resetPages: true});
+    }));
+    countryCheckboxes.forEach(cb => cb.addEventListener('change', () => {
+      currentPage = 1;
+      saveFiltersToStorage();
+      fetchAndDisplayMovies({resetPages: true});
+    }));
+
+    // Sayfa yüklendiğinde filtreleri yükle
+    loadFiltersFromStorage();
+
+    // Sayfa geçiş butonları
+    prevPageBtn.addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        saveFiltersToStorage();
+        fetchAndDisplayMovies({resetPages: false});
+      }
+    });
+    nextPageBtn.addEventListener('click', () => {
+      if (currentPage < totalPages) {
+        currentPage++;
+        saveFiltersToStorage();
+        fetchAndDisplayMovies({resetPages: false});
+      }
+    });
+
+    // İlk sayfa yüklenince
+    document.addEventListener('DOMContentLoaded', () => fetchAndDisplayMovies({resetPages: true}));
+
+    // Seçili türleri virgülle birleştirme
+    function getSelectedGenres() {
+      return genreCheckboxes
+        .filter(cb => cb.checked)
+        .map(cb => cb.value)
+        .join(',');
+    }
+
+    // Seçili ülkeleri virgülle birleştirme
+    function getSelectedCountries() {
+      return countryCheckboxes
+        .filter(cb => cb.checked)
+        .map(cb => cb.value)
+        .join(',');
+    }
+
+    // 1) Discover Aşaması: TMDB’den “sadece film, adult=false, video=false”
+    async function fetchDiscoverMovies(page = 1) {
+      const year       = parseInt(yearSlider.value, 10);
+      // Slider’dan gelen min IMDb puan, Discover’da kullanmıyoruz (OMDb ile filtreleyeceğiz)
+      const genres     = getSelectedGenres();
+      const countries  = getSelectedCountries();
+      const sortParam  = sortSelect.value; // "" veya "popularity.desc" gibi
+
+      // include_adult=false (adult içeriği eler)
+      // include_video=false (fragman, klip, dizi bölümü vb. eler)
+      // vote_average.gte=0 (örneğin 0 bırakarak, puan filtresini OMDb ile yapacağız)
+      const minTMDB = parseFloat(ratingSlider.value);
+      let url = `${BASE_URL}/discover/movie?api_key=${API_KEY}` +
+                `&language=en-US` +
+                `&page=${page}` +
+                `&include_adult=false` +
+                `&include_video=false` +
+                `&sort_by=popularity.desc` +
+                `&vote_average.gte=${minTMDB}`;
+      if (sortParam) {
+        url += `&sort_by=${sortParam}`;
+      }
+      if (year !== MAX_YEAR) {
+        url += `&primary_release_year=${year}`;
+      }
+      if (genres) {
+        url += `&with_genres=${genres}`;
+      }
+      if (countries) {
+        url += `&with_origin_country=${countries}`;
+      }
+
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        return {
+          results: Array.isArray(data.results) ? data.results : [],
+          total_pages: data.total_pages || 1
+        };
+      } catch (err) {
+        console.error('Discover API hatası:', err);
+        return { results: [], total_pages: 1 };
+      }
+    }
+
+    // 2) Sadece TMDB Detay çekme (OMDb kaldırıldı)
+    async function fetchMovieDetails(movieId) {
+      // TMDB Detay: poster, runtime, release_date, title, vote_average
+      const tmdbUrl = `${BASE_URL}/movie/${movieId}?api_key=${API_KEY}&language=tr-TR`;
+      let tmdbDet = null;
+      try {
+        const resp = await fetch(tmdbUrl);
+        tmdbDet = await resp.json();
+      } catch (err) {
+        console.error(`TMDB film detay hatası (ID: ${movieId}):`, err);
+        return null;
+      }
+
+      // Detaydan aldığımız en güncel TMDB vote_average
+      const detailedTmdbRating = (tmdbDet && typeof tmdbDet.vote_average === 'number')
+        ? tmdbDet.vote_average
+        : null;
+
+      return {
+        runtime: (tmdbDet && tmdbDet.runtime) ? tmdbDet.runtime : null,
+        poster_path: tmdbDet ? tmdbDet.poster_path : null,
+        release_date: tmdbDet ? tmdbDet.release_date : null,
+        title: tmdbDet ? tmdbDet.title : '',
+        tmdbRating: detailedTmdbRating
+      };
+    }
+
+    // 3) Film kartı oluşturma: sadece TMDB puanı göster
+    function createMovieCard(movie) {
+      const colDiv = document.createElement('div');
+      colDiv.classList.add('col-md-3');
+
+      const posterUrl = movie.poster_path
+        ? `${IMG_BASE_URL}${movie.poster_path}`
+        : 'https://via.placeholder.com/500x750?text=No+Image';
+
+      let displayedRating = '—';
+      if (movie.tmdbRating !== null && !isNaN(movie.tmdbRating)) {
+        displayedRating = movie.tmdbRating.toFixed(1);
+      }
+
+      colDiv.innerHTML = `
+        <div class="movie-card mb-4">
+          <img src="${posterUrl}" alt="${movie.title} Poster" />
+          <div class="movie-info">
+            <h6 class="mb-1 text-truncate">${movie.title}</h6>
+            <small>Yıl: ${movie.release_date ? movie.release_date.slice(0, 4) : '—'}</small><br>
+            <small>Süre: ${movie.runtime ? movie.runtime + ' dk' : '—'}</small><br>
+            <small>TMDB Puan: ${displayedRating}</small>
+          </div>
+        </div>
+      `;
+      return colDiv;
+    }
+
+    // 4) Filmleri çekip ekrana basma fonksiyonu
+    async function fetchAndDisplayMovies({resetPages = true} = {}) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      moviesContainer.innerHTML = ''; // Önceki içerikleri temizle
+      document.getElementById('loadMoreContainer').innerHTML = '';
+
+      // 4.1) Discover’dan ilk 5 sayfanın sonuçlarını çek (client-side pagination)
+      if (resetPages) {
+        allResults = [];
+        loadedApiPages = 5;
+        for (let p = 1; p <= loadedApiPages; p++) {
+          const { results, total_pages } = await fetchDiscoverMovies(p);
+          if (Array.isArray(results)) allResults = allResults.concat(results);
+          if (p >= total_pages) break;
+        }
+        saveFiltersToStorage();
+      }
+
+      // 4.2) Eğer Discover sonucu boşsa uyarı göster
+      if (!allResults.length) {
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('col-12', 'text-center', 'mt-4');
+        msgDiv.textContent = 'Bu filtrelere uygun film bulunamadı.';
+        moviesContainer.appendChild(msgDiv);
+        currentPageDisplay.textContent = `${currentPage} / 1`;
+        prevPageBtn.classList.add('disabled');
+        nextPageBtn.classList.add('disabled');
+        return;
+      }
+
+      // 4.3) “video: true” flag’ini Discover zaten eliyor, yine de filtrele
+      const onlyMovies = allResults.filter(m => !m.video);
+
+      // 4.4) Her film için TMDB Detay + OMDb bilgilerini al
+      const detailedList = await Promise.all(
+        onlyMovies.map(async (m) => {
+          const det = await fetchMovieDetails(m.id);
+          return {
+            id: m.id,
+            title: m.title,
+            release_date: det ? det.release_date : m.release_date,
+            poster_path: det ? det.poster_path : m.poster_path,
+            runtime: det ? det.runtime : null,
+            tmdbRating: det ? det.tmdbRating : null,
+            imdbRating: det ? det.imdbRating : null,
+            omdbType: det ? det.omdbType : null,
+            adult: m.adult
+          };
+        })
+      );
+
+      // 4.5) Filtreleme: sadece TMDB puanı ve poster/rating kontrolü
+      const minTMDB = parseFloat(ratingSlider.value);
+      const filtered = detailedList.filter(m => {
+        // Sadece TMDB puanı ve poster kontrolü
+        const hasPoster = (m.poster_path !== null);
+        const hasRating = (m.tmdbRating !== null && !isNaN(m.tmdbRating));
+        const passesRating = hasRating ? (m.tmdbRating >= minTMDB) : (minTMDB === 0);
+        // TMDB puanı 10 olanları gösterme
+        const notTen = m.tmdbRating !== 10;
+        // Cinsel içerikli (adult) filmleri gösterme
+        const notAdult = m.adult !== true;
+        return hasPoster && passesRating && notTen && notAdult;
+      });
+
+      // 4.6) Client-side pagination: her sayfa 16 film, max 99 sayfa
+      const PAGE_SIZE = 16;
+      totalPages = Math.max(1, Math.min(99, Math.ceil(filtered.length / PAGE_SIZE)));
+      if (currentPage > totalPages) currentPage = totalPages;
+      if (currentPage < 1) currentPage = 1;
+      const startIdx = (currentPage - 1) * PAGE_SIZE;
+      const endIdx = startIdx + PAGE_SIZE;
+      const pageMovies = filtered.slice(startIdx, endIdx);
+
+      if (!pageMovies.length) {
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('col-12', 'text-center', 'mt-4');
+        msgDiv.textContent = 'Bu filtrelere uygun film bulunamadı.';
+        moviesContainer.appendChild(msgDiv);
+      } else {
+        // 4.7) Kartları ekle
+        pageMovies.forEach((movie) => {
+          const cardEl = createMovieCard(movie);
+          cardEl.style.cursor = 'pointer';
+          cardEl.addEventListener('click', () => {
+            window.location.href = `movie.html?id=${movie.id}`;
+          });
+          moviesContainer.appendChild(cardEl);
+        });
+      }
+
+      // 4.8) Sayfa numarasını güncelle
+      currentPageDisplay.textContent = `${currentPage} / ${totalPages}`;
+      saveFiltersToStorage();
+
+      // 4.9) Prev/Next buton durumları
+      if (currentPage <= 1) {
+        prevPageBtn.classList.add('disabled');
+      } else {
+        prevPageBtn.classList.remove('disabled');
+      }
+      if (currentPage >= totalPages) {
+        nextPageBtn.classList.add('disabled');
+      } else {
+        nextPageBtn.classList.remove('disabled');
+      }
+
+      // DAHA FAZLA YÜKLE butonu
+      const loadMoreContainer = document.getElementById('loadMoreContainer');
+      if (currentPage === totalPages && loadedApiPages < 99) {
+        const btn = document.createElement('button');
+        btn.textContent = 'DAHA FAZLA YÜKLE';
+        btn.className = 'btn btn-lg btn-success fw-bold px-5 py-3';
+        btn.style.background = '#1DB954';
+        btn.style.color = '#111';
+        btn.onclick = async () => {
+          let foundNew = false;
+          let newResults = [];
+          for (let p = loadedApiPages + 1; p <= loadedApiPages + 5 && p <= 99; p++) {
+            const { results, total_pages } = await fetchDiscoverMovies(p);
+            if (Array.isArray(results) && results.length > 0) {
+              allResults = allResults.concat(results);
+              newResults = newResults.concat(results);
+              foundNew = true;
+            }
+            if (p >= total_pages) break;
+          }
+          loadedApiPages += 5;
+          // Tekrar filtrele ve sayfa sayısını güncelle
+          // Yeni toplam sayfa sayısını hesapla
+          const PAGE_SIZE = 16;
+          const minTMDB = parseFloat(ratingSlider.value);
+          const detailedList = await Promise.all(
+            allResults.filter(m => !m.video).map(async (m) => {
+              const det = await fetchMovieDetails(m.id);
+              return {
+                id: m.id,
+                title: m.title,
+                release_date: det ? det.release_date : m.release_date,
+                poster_path: det ? det.poster_path : m.poster_path,
+                runtime: det ? det.runtime : null,
+                tmdbRating: det ? det.tmdbRating : null,
+                imdbRating: det ? det.imdbRating : null,
+                omdbType: det ? det.omdbType : null,
+                adult: m.adult
+              };
+            })
+          );
+          const filtered = detailedList.filter(m => {
+            const hasPoster = (m.poster_path !== null);
+            const hasRating = (m.tmdbRating !== null && !isNaN(m.tmdbRating));
+            const passesRating = hasRating ? (m.tmdbRating >= minTMDB) : (minTMDB === 0);
+            const notTen = m.tmdbRating !== 10;
+            const notAdult = m.adult !== true;
+            return hasPoster && passesRating && notTen && notAdult;
+          });
+          const newTotalPages = Math.max(1, Math.min(99, Math.ceil(filtered.length / PAGE_SIZE)));
+          // Eğer yeni sayfa eklendiyse, currentPage'i eski son sayfadan bir sonraki dolu sayfaya ayarla
+          // currentPage'i değiştirme, sadece yeni filmleri ekle ve pagination'ı güncelle
+          totalPages = newTotalPages;
+          await fetchAndDisplayMovies({resetPages: false});
+          if (!foundNew || newResults.length === 0) {
+            loadMoreContainer.innerHTML = '<div style="color:#fff;font-size:1rem;">Aradığınız kriterlere uygun başka film yok</div>';
+          }
+        };
+        loadMoreContainer.appendChild(btn);
+      }
+    }
+  </script>
 </body>
 </html>

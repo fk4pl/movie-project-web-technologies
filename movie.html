@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Film Detayı | Movilar</title>
+  <link href="styles.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    .movie-bg {
+      position: relative;
+      width: 100%;
+      min-height: 320px;
+      background-size: cover;
+      background-position: center;
+      filter: blur(0px);
+      z-index: 1;
+    }
+    .movie-bg::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 2;
+    }
+    .movie-detail-content {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      align-items: flex-start;
+      gap: 32px;
+      margin-top: -180px;
+      padding-bottom: 32px;
+    }
+    .movie-poster {
+      min-width: 220px;
+      max-width: 220px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.7);
+      z-index: 4;
+    }
+    .movie-title {
+      font-size: 2.2rem;
+      font-weight: bold;
+      color: #fff;
+      text-align: center;
+      margin-bottom: 12px;
+      margin-top: 16px;
+    }
+    .movie-meta {
+      color: #b0ffb0;
+      font-size: 1rem;
+      text-align: center;
+      text-transform: lowercase;
+      margin-bottom: 18px;
+    }
+    .movie-overview {
+      color: #e0e0e0;
+      font-size: 1.1rem;
+      margin: 24px 0 16px 0;
+      text-align: center;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      font-weight: bold;
+    }
+    .movie-cast {
+      color: #1DB954;
+      font-size: 1.05rem;
+      text-align: center;
+      margin-top: 18px;
+      margin-bottom: 8px;
+    }
+    @media (max-width: 900px) {
+      .movie-detail-content { flex-direction: column; align-items: center; margin-top: -100px; }
+      .movie-poster { margin-bottom: 16px; }
+    }
+  </style>
+</head>
+<body style="background: #111;">
+  <nav class="navbar navbar-expand-lg navbar-movilar fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-logo d-flex align-items-center" href="index.html">
+        <img src="logo.png" alt="Movilar Logo" style="height:32px;width:32px;margin-right:8px;">
+        <span style="font-weight:bold;font-size:1.5rem;letter-spacing:1px;">Movilar</span>
+      </a>
+    </div>
+  </nav>
+  <div id="movieBg" class="movie-bg"></div>
+  <main class="container" style="position:relative;z-index:3;">
+    <div class="movie-detail-content">
+      <img id="moviePoster" class="movie-poster" src="" alt="Poster" />
+      <div style="flex:1;">
+        <div class="movie-title" id="movieTitle"></div>
+        <div class="movie-meta" id="movieMeta"></div>
+        <div class="movie-overview" id="movieOverview"></div>
+        <div class="movie-cast" id="movieCast"></div>
+      </div>
+    </div>
+  </main>
+  <footer class="footer-movilar text-center py-4 mt-4">
+    <p class="mb-0">Movilar</p>
+  </footer>
+  <script>
+    const API_KEY = '8c45f976cf5bf09078e4ad738b6a2127';
+    const IMG_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+    const BG_BASE_URL = 'https://image.tmdb.org/t/p/original';
+    function getQueryParam(name) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
+    }
+    async function fetchMovieDetail(id) {
+      const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=tr-TR`;
+      const resp = await fetch(url);
+      return await resp.json();
+    }
+    async function fetchMovieCredits(id) {
+      const url = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${API_KEY}&language=tr-TR`;
+      const resp = await fetch(url);
+      return await resp.json();
+    }
+    function getAgeRating(movie) {
+      // TMDB'de "adult" true ise 18+, yoksa 13+ veya "Genel" döndür
+      if (movie.adult) return '18+';
+      // TMDB API'de release_dates endpoint ile daha detaylı yaş uyarısı alınabilir (isteğe bağlı)
+      return '13+';
+    }
+    function getGenres(movie) {
+      return (movie.genres || []).map(g => g.name).join(', ');
+    }
+    function getCast(credits) {
+      if (!credits || !credits.cast) return '';
+      return credits.cast.slice(0, 8).map(a => a.name).join(', ');
+    }
+    async function renderMovie() {
+      const id = getQueryParam('id');
+      if (!id) return;
+      const movie = await fetchMovieDetail(id);
+      const credits = await fetchMovieCredits(id);
+      // Arka plan
+      if (movie.backdrop_path) {
+        document.getElementById('movieBg').style.backgroundImage = `url('${BG_BASE_URL}${movie.backdrop_path}')`;
+      }
+      // Poster
+      document.getElementById('moviePoster').src = movie.poster_path ? IMG_BASE_URL + movie.poster_path : 'https://via.placeholder.com/500x750?text=No+Image';
+      // Başlık
+      document.getElementById('movieTitle').textContent = movie.title || '';
+      // Meta
+      const meta = [
+        getAgeRating(movie),
+        movie.release_date ? movie.release_date : '',
+        getGenres(movie),
+        movie.runtime ? (movie.runtime + ' dk') : ''
+      ].filter(Boolean).join(' • ');
+      document.getElementById('movieMeta').textContent = meta;
+      // Özet
+      document.getElementById('movieOverview').textContent = movie.overview || '';
+      // Oyuncular
+      document.getElementById('movieCast').innerHTML = '<b>Oyuncular:</b> ' + getCast(credits);
+    }
+    renderMovie();
+  </script>
+</body>
+</html>
