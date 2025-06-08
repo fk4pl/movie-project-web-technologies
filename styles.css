@@ -332,14 +332,274 @@ a:hover {
     text-decoration: underline;
 }
 
+/*================= NEW BROWSE PAGE STYLES ================*/
+/* Mood Section */
+.mood-section {
+    background-color: #0a0a0a !important;
+    padding: 80px 0;
+}
+
+.mood-card {
+    background-color: #121212 !important;
+    border-radius: 12px;
+    padding: 30px 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+    height: 100%;
+}
+
+.mood-card:hover,
+.mood-card.active {
+    transform: translateY(-10px);
+    border-color: #1DB954;
+    background-color: #1a1a1a !important;
+}
+
+.mood-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.mood-card h4 {
+    color: #1DB954;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.mood-card p {
+    color: #b0b0b0;
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* Trending Section */
+.trending-section {
+    padding: 80px 0;
+}
+
+/* Classics Section */
+.classics-section {
+    background-color: #0a0a0a !important;
+    padding: 80px 0;
+}
+
+/* Genre Section */
+.genre-section {
+    padding: 80px 0;
+}
+
+.genre-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.genre-btn {
+    margin: 5px;
+    padding: 8px 20px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.genre-btn.active {
+    background-color: #1DB954 !important;
+    color: #ffffff !important;
+    border-color: #1DB954 !important;
+}
+
+/* Enhanced Movie Cards */
+.movie-card {
+    background-color: #121212 !important;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 1px solid #333;
+}
+
+.movie-card:hover {
+    transform: translateY(-8px);
+    border-color: #1DB954;
+    box-shadow: 0 8px 25px rgba(29, 185, 84, 0.3);
+}
+
+.movie-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.movie-card:hover img {
+    transform: scale(1.05);
+}
+
+.movie-info {
+    padding: 15px;
+    background-color: #1a1a1a !important;
+}
+
+.movie-title {
+    color: #ffffff !important;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 1rem;
+    line-height: 1.3;
+}
+
+.movie-year,
+.movie-rating {
+    color: #1DB954 !important;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Section Headers */
+section h2 {
+    color: #1DB954 !important;
+    font-weight: 700;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+section h2 i {
+    color: #1DB954;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-    aside {
+    .mood-card {
         margin-bottom: 20px;
+    }
+    
+    .genre-tabs {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .genre-btn {
+        width: 200px;
+    }
+    
+    .movie-card img {
+        height: 250px;
     }
 }
 
-/* ================ Ekstra Boşluk ve Hizalama ================ */
-.mb-4   { margin-bottom: 1.5rem !important; }
-.mt-4   { margin-top:    1.5rem !important; }
-.py-4   { padding-top:   1.5rem !important; padding-bottom: 1.5rem !important; }
+@media (max-width: 576px) {
+    .mood-icon {
+        font-size: 2.5rem;
+    }
+    
+    .mood-card {
+        padding: 20px 15px;
+    }
+    
+    .movie-card img {
+        height: 300px;
+    }
+}
+
+/* Loading States */
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+}
+
+.loading::after {
+    content: '⟳';
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+/*================= NEW BROWSE PAGE STYLES END ================*/
 /*================= BROWSE KISMI BİTİŞ ================*/
+/*================= MOVIE DETAIL PAGE ENHANCEMENTS ================*/
+.related-sections {
+    background-color: #0a0a0a !important;
+}
+
+.related-section h3 {
+    color: #1DB954 !important;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 30px;
+}
+
+.related-section h3 i {
+    color: #1DB954;
+}
+
+.related-movie-card {
+    transition: all 0.3s ease;
+    border: 1px solid #333 !important;
+}
+
+.related-movie-card:hover {
+    transform: translateY(-8px) !important;
+    border-color: #1DB954 !important;
+    box-shadow: 0 8px 25px rgba(29, 185, 84, 0.3) !important;
+}
+
+.related-movie-card img {
+    transition: transform 0.3s ease;
+}
+
+.related-movie-card:hover img {
+    transform: scale(1.05);
+}
+
+.related-movie-info {
+    color: #e0e0e0 !important;
+}
+
+.related-movie-title {
+    color: #ffffff !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.related-movie-year {
+    color: #1DB954 !important;
+    font-weight: 500;
+}
+
+/* Responsive adjustments for related movies */
+@media (max-width: 768px) {
+    .related-movie-card img {
+        height: 200px;
+    }
+    
+    .related-movie-info {
+        padding: 10px;
+    }
+    
+    .related-movie-title {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .related-section {
+        padding: 40px 0 !important;
+    }
+    
+    .related-movie-card img {
+        height: 180px;
+    }
+}
+/*================= MOVIE DETAIL PAGE ENHANCEMENTS END ================*/
