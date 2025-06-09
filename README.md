@@ -28,4 +28,5 @@ This project was created by:
 - Muhammed Gökhan Perçem
 - Muhammet Furkan Kaplan
 
+
 For Web Technologies Class 2025 at Kocaeli University.
