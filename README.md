@@ -3,13 +3,14 @@
 Movilar is a website made using HTML, CSS, and JavaScript. The project will allow users to
 discover movies similar to a title they input or select. It will focus on creating an Interactive
 Movie Recommendation System that suggests movies similar to user search using TMDB
-API and IMDb API.
+API.
 
 ## What does it do?
 
 Movilar has these 3 tools to help users:
 - Browse popular movies
-- Search for specific movies 
+- Search for specific movies
+- Find movies according to your mood
 - Find movies similar to ones you like
 
 ## Used technologies
