@@ -1,13 +1,13 @@
 # Movilar - Movie Discovery Website
 
-Movilar is a website made using HTML, CSS, and JavaScript. The project will allow users to
-discover movies similar to a title they input or select. It will focus on creating an Interactive
+Movilar is a website made using HTML, CSS, and JavaScript. Project lets users
+discover movies similar to a title they input or select. It's basically an Interactive
 Movie Recommendation System that suggests movies similar to user search using TMDB
 API.
 
 ## What does it do?
 
-Movilar has these 3 tools to help users:
+Movilar has these tools for you:
 - Browse popular movies
 - Search for specific movies
 - Find movies according to your mood
