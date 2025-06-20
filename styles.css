@@ -191,14 +191,12 @@ section h2 {
     font-weight: 600;
     border-radius: 25px;
     transition: var(--transition-medium);
-    box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
     position: relative;
     overflow: hidden;
 }
 
 .btn-movilar-green:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(29, 185, 84, 0.4);
     color: #ffffff !important;
 }
 
@@ -223,7 +221,6 @@ section h2 {
     background-color: var(--primary-color) !important;
     border-color: var(--primary-color) !important;
     transform: translateY(-2px);
-    box-shadow: var(--shadow-primary);
 }
 
 /* ================= Enhanced Feature Cards ================= */
@@ -256,7 +253,6 @@ section h2 {
 
 .feature-card:hover {
     transform: translateY(-15px);
-    box-shadow: var(--shadow-primary);
     border-color: var(--primary-color);
 }
 
@@ -337,7 +333,6 @@ input[type="range"]::-webkit-slider-thumb {
 
 .movie-card:hover {
     transform: translateY(-10px);
-    box-shadow: var(--shadow-primary);
     border-color: var(--primary-color);
 }
 
@@ -528,7 +523,6 @@ select:focus {
 .mood-card.active {
     border-color: var(--primary-color);
     transform: translateY(-10px);
-    box-shadow: var(--shadow-primary);
 }
 
 .mood-card i {
