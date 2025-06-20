@@ -5,7 +5,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" "></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"></script>
     <!-- Stylesheet importlama -->
     <link href="./styles.css" rel="stylesheet">
     <!-- Google Fonts importlama -->
@@ -18,6 +18,12 @@
     <!-- Icon -->
     <link rel="icon" type="image/png" href="favicon.png">
     <title>Search Movies - Movilar</title>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Add reference to the external JavaScript file -->
+    <script src="js/search.js"></script>
     
     <style>
         .search-hero {
@@ -63,6 +69,24 @@
             color: #1DB954;
             font-size: 1.2rem;
             z-index: 3;
+        }
+        
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #1DB954;
+            border: none;
+            color: white;
+            border-radius: 20px;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .search-btn:hover {
+            background-color: #19a34a;
         }
         
         .autocomplete-dropdown {
@@ -315,19 +339,24 @@
                     Find any movie by title, genre, year, or rating
                 </p>
                 
-                <div class="search-input-group">
-                    <i class="bi bi-search search-icon"></i>
-                    <input 
-                        type="text" 
-                        class="search-input" 
-                        id="searchInput"
-                        placeholder="Type a movie title..."
-                        autocomplete="off"
-                    >
-                    <div class="autocomplete-dropdown" id="autocompleteDropdown">
-                        <!-- Autocomplete suggestions will appear here -->
+                <form id="searchForm" onsubmit="return false;">
+                    <div class="search-input-group">
+                        <i class="bi bi-search search-icon"></i>
+                        <input 
+                            type="text" 
+                            class="search-input" 
+                            id="searchInput"
+                            placeholder="Type a movie title..."
+                            autocomplete="off"
+                        >
+                        <button type="submit" class="search-btn" id="searchButton">
+                            Search
+                        </button>
+                        <div class="autocomplete-dropdown" id="autocompleteDropdown">
+                            <!-- Autocomplete suggestions will appear here -->
+                        </div>
                     </div>
-                </div>
+                </form>
                 
                 <div class="text-center">
                     <p style="color: #888; font-size: 0.9rem;">
@@ -455,282 +484,5 @@
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script>
-        const API_KEY = '8c45f976cf5bf09078e4ad738b6a2127';
-        const BASE_URL = 'https://api.themoviedb.org/3';
-        const IMG_BASE_URL = 'https://image.tmdb.org/t/p/w500';
-
-        let currentPage = 1;
-        let totalPages = 1;
-        let currentSearchQuery = '';
-
-        const searchInput = document.getElementById('searchInput');
-        const autocompleteDropdown = document.getElementById('autocompleteDropdown');
-        const resultsContainer = document.getElementById('resultsContainer');
-        const resultsHeader = document.getElementById('resultsHeader');
-        const resultsCount = document.getElementById('resultsCount');
-        const loadMoreContainer = document.getElementById('loadMoreContainer');
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const ratingFilter = document.getElementById('ratingFilter');
-        const ratingValue = document.getElementById('ratingValue');
-
-        document.addEventListener('DOMContentLoaded', function() {
-            updateRatingValue();
-            setupEventListeners();
-        });
-
-        function setupEventListeners() {
-            searchInput.addEventListener('input', handleSearchInput);
-            searchInput.addEventListener('blur', hideAutocomplete);
-            loadMoreBtn.addEventListener('click', loadMoreMovies);
-            ratingFilter.addEventListener('input', updateRatingValue);
-            
-            document.addEventListener('click', function(e) {
-                if (!searchInput.contains(e.target) && !autocompleteDropdown.contains(e.target)) {
-                    hideAutocomplete();
-                }
-            });
-        }
-
-        function handleSearchInput(e) {
-            const query = e.target.value.trim();
-            
-            if (query.length >= 2) {
-                setTimeout(() => {
-                    fetchAutocomplete(query);
-                }, 300);
-            } else {
-                hideAutocomplete();
-                clearResults();
-            }
-        }
-
-        async function fetchAutocomplete(query) {
-            try {
-                const response = await fetch(`${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}&page=1`);
-                const data = await response.json();
-                
-                if (data.results && data.results.length > 0) {
-                    showAutocomplete(data.results.slice(0, 5));
-                } else {
-                    hideAutocomplete();
-                }
-            } catch (error) {
-                console.error('Error fetching autocomplete:', error);
-                hideAutocomplete();
-            }
-        }
-
-        function showAutocomplete(movies) {
-            autocompleteDropdown.innerHTML = '';
-            
-            movies.forEach(movie => {
-                const item = createAutocompleteItem(movie);
-                autocompleteDropdown.appendChild(item);
-            });
-            
-            autocompleteDropdown.style.display = 'block';
-        }
-
-        function hideAutocomplete() {
-            setTimeout(() => {
-                autocompleteDropdown.style.display = 'none';
-            }, 150);
-        }
-
-        function createAutocompleteItem(movie) {
-            const item = document.createElement('div');
-            item.className = 'autocomplete-item';
-            
-            const posterUrl = movie.poster_path 
-                ? `${IMG_BASE_URL}${movie.poster_path}` 
-                : 'https://via.placeholder.com/40x60?text=?';
-            
-            const year = movie.release_date ? movie.release_date.slice(0, 4) : 'Unknown';
-            
-            item.innerHTML = `
-                <img src="${posterUrl}" alt="${movie.title}" class="autocomplete-poster">
-                <div class="autocomplete-info">
-                    <div class="autocomplete-title">${movie.title}</div>
-                    <div class="autocomplete-year">${year}</div>
-                </div>
-            `;
-            
-            item.addEventListener('click', () => selectMovie(movie.title));
-            
-            return item;
-        }
-
-        function selectMovie(title) {
-            searchInput.value = title;
-            hideAutocomplete();
-            performSearch(title);
-        }
-
-        async function performSearch(query) {
-            if (!query.trim()) return;
-            
-            currentSearchQuery = query;
-            currentPage = 1;
-            
-            showLoading();
-            
-            try {
-                const movies = await searchMovies(query, 1);
-                displayResults(movies);
-            } catch (error) {
-                console.error('Error performing search:', error);
-                showNoResults();
-            }
-        }
-
-        async function searchMovies(query, page = 1) {
-            const genreFilter = document.getElementById('genreFilter').value;
-            const yearFilter = document.getElementById('yearFilter').value;
-            const ratingFilter = document.getElementById('ratingFilter').value;
-            
-            let url = `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}&page=${page}`;
-            
-            if (genreFilter) {
-                url += `&with_genres=${genreFilter}`;
-            }
-            
-            if (yearFilter) {
-                if (yearFilter === '2010') {
-                    url += `&primary_release_date.gte=2010-01-01&primary_release_date.lte=2019-12-31`;
-                } else if (yearFilter === '2000') {
-                    url += `&primary_release_date.gte=2000-01-01&primary_release_date.lte=2009-12-31`;
-                } else if (yearFilter === '1990') {
-                    url += `&primary_release_date.gte=1990-01-01&primary_release_date.lte=1999-12-31`;
-                } else if (yearFilter === '1980') {
-                    url += `&primary_release_date.gte=1980-01-01&primary_release_date.lte=1989-12-31`;
-                } else {
-                    url += `&year=${yearFilter}`;
-                }
-            }
-            
-            if (ratingFilter > 0) {
-                url += `&vote_average.gte=${ratingFilter}`;
-            }
-            
-            const response = await fetch(url);
-            const data = await response.json();
-            
-            totalPages = data.total_pages;
-            return data;
-        }
-
-        function displayResults(data) {
-            if (currentPage === 1) {
-                resultsContainer.innerHTML = '';
-            }
-            
-            if (!data.results || data.results.length === 0) {
-                showNoResults();
-                return;
-            }
-            
-            data.results.forEach(movie => {
-                const movieCard = createMovieCard(movie);
-                resultsContainer.appendChild(movieCard);
-            });
-            
-            resultsHeader.style.display = 'flex';
-            resultsCount.textContent = `Found ${data.total_results.toLocaleString()} movies`;
-            
-            if (currentPage < totalPages) {
-                loadMoreContainer.style.display = 'block';
-            } else {
-                loadMoreContainer.style.display = 'none';
-            }
-        }
-
-        function createMovieCard(movie) {
-            const card = document.createElement('div');
-            card.className = 'col-md-4 col-sm-6';
-            
-            const posterUrl = movie.poster_path 
-                ? `${IMG_BASE_URL}${movie.poster_path}` 
-                : 'https://via.placeholder.com/500x750?text=No+Image';
-            
-            const year = movie.release_date ? movie.release_date.slice(0, 4) : 'N/A';
-            const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
-            
-            card.innerHTML = `
-                <div class="movie-card" onclick="openMovieDetail(${movie.id})">
-                    <img src="${posterUrl}" alt="${movie.title}" loading="lazy">
-                    <div class="movie-info">
-                        <h6 class="movie-title">${movie.title}</h6>
-                        <small class="movie-year">Year: ${year}</small><br>
-                        <small class="movie-rating">Rating: ${rating}/10</small>
-                    </div>
-                </div>
-            `;
-            
-            return card;
-        }
-
-        function openMovieDetail(movieId) {
-            window.location.href = `movie.html?id=${movieId}`;
-        }
-
-        function showLoading() {
-            resultsContainer.innerHTML = `
-                <div class="col-12">
-                    <div class="loading-container">
-                        <div class="loading-spinner"></div>
-                    </div>
-                </div>
-            `;
-            resultsHeader.style.display = 'none';
-            loadMoreContainer.style.display = 'none';
-        }
-
-        function showNoResults() {
-            resultsContainer.innerHTML = `
-                <div class="col-12">
-                    <div class="no-results">
-                        <i class="bi bi-search"></i>
-                        <h4 style="color: #e0e0e0; margin-bottom: 15px;">No Movies Found</h4>
-                        <p>Try adjusting your search terms or filters</p>
-                    </div>
-                </div>
-            `;
-            resultsHeader.style.display = 'none';
-            loadMoreContainer.style.display = 'none';
-        }
-
-        function clearResults() {
-            resultsContainer.innerHTML = '';
-            resultsHeader.style.display = 'none';
-            loadMoreContainer.style.display = 'none';
-        }
-
-        async function loadMoreMovies() {
-            if (currentPage >= totalPages) return;
-            
-            currentPage++;
-            
-            try {
-                const movies = await searchMovies(currentSearchQuery, currentPage);
-                displayResults(movies);
-            } catch (error) {
-                console.error('Error loading more movies:', error);
-            }
-        }
-
-        function updateRatingValue() {
-            ratingValue.textContent = ratingFilter.value;
-        }
-
-        function applyFilters() {
-            if (currentSearchQuery) {
-                performSearch(currentSearchQuery);
-            }
-        }
-    </script>
 </body>
 </html>

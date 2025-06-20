@@ -2,89 +2,89 @@
  * Main JavaScript file for Movilar
  */
 
-const CONFIG = {
-    API_KEY: '8c45f976cf5bf09078e4ad738b6a2127',
-    BASE_URL: 'https://api.themoviedb.org/3',
-    IMG_BASE_URL: 'https://image.tmdb.org/t/p/w500',
-    BG_BASE_URL: 'https://image.tmdb.org/t/p/original',
-    PROFILE_BASE_URL: 'https://image.tmdb.org/t/p/w185'
-};
+const API_KEY = '8c45f976cf5bf09078e4ad738b6a2127';
+const BASE_URL = 'https://api.themoviedb.org/3';
+const IMG_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 
-const Utils = {
-    formatDate(dateString) {
-        if (!dateString) return 'Unknown';
-        const date = new Date(dateString);
-        return date.getFullYear();
-    },
+// Basic utility functions
+function formatDate(dateString) {
+    if (!dateString) return 'Unknown';
+    const date = new Date(dateString);
+    return date.getFullYear();
+}
 
-    formatRating(rating) {
-        if (!rating) return 'N/A';
-        return parseFloat(rating).toFixed(1);
-    },
+function formatRating(rating) {
+    if (!rating) return 'N/A';
+    return parseFloat(rating).toFixed(1);
+}
 
-    getSafeImageUrl(imagePath, size = 'w500') {
-        if (!imagePath) {
-            return `https://via.placeholder.com/500x750/1a1a1a/1DB954?text=No+Image`;
-        }
-        return `https://image.tmdb.org/t/p/${size}${imagePath}`;
-    },
-
-    handleError(error, userMessage = 'Something went wrong. Please try again.') {
-        console.error('Error:', error);
-        this.showNotification(userMessage, 'error');
-    },
-
-    showNotification(message, type = 'info') {
-        const notification = document.createElement('div');
-        notification.textContent = message;
-        notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 20px;
-            border-radius: 8px;
-            color: white;
-            font-weight: 500;
-            z-index: 10000;
-            max-width: 300px;
-            word-wrap: break-word;
-        `;
-
-        switch (type) {
-            case 'error':
-                notification.style.background = '#dc3545';
-                break;
-            case 'success':
-                notification.style.background = '#1DB954';
-                break;
-            default:
-                notification.style.background = '#17a2b8';
-        }
-
-        document.body.appendChild(notification);
-
-        setTimeout(() => {
-            if (notification.parentNode) {
-                notification.parentNode.removeChild(notification);
-            }
-        }, 5000);
+function getSafeImageUrl(imagePath, size = 'w500') {
+    if (!imagePath) {
+        return `https://via.placeholder.com/500x750?text=No+Image`;
     }
-};
+    return `https://image.tmdb.org/t/p/${size}${imagePath}`;
+}
 
-const ApiService = {
-    async request(endpoint, params = {}) {
-        const url = new URL(`${CONFIG.BASE_URL}${endpoint}`);
-        url.searchParams.append('api_key', CONFIG.API_KEY);
+// Create a simple movie card
+function createMovieCard(movie) {
+    const card = document.createElement('div');
+    card.className = 'col-lg-3 col-md-4 col-sm-6';
+    
+    const posterUrl = getSafeImageUrl(movie.poster_path);
+    const year = formatDate(movie.release_date);
+    const rating = formatRating(movie.vote_average);
+
+    card.innerHTML = `
+        <div class="movie-card" onclick="window.location.href='movie.html?id=${movie.id}'">
+            <img src="${posterUrl}" alt="${movie.title}" class="movie-poster">
+            <div class="movie-info">
+                <h6 class="movie-title">${movie.title}</h6>
+                <small class="movie-year">Year: ${year}</small>
+            </div>
+        </div>
+    `;
+
+    return card;
+}
+
+// Simple API request function
+async function fetchFromAPI(endpoint, params = {}) {
+    const url = new URL(`${BASE_URL}${endpoint}`);
+    url.searchParams.append('api_key', API_KEY);
+    
+    Object.keys(params).forEach(key => {
+        if (params[key] !== null && params[key] !== undefined) {
+            url.searchParams.append(key, params[key]);
+        }
+    });
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         
-        Object.keys(params).forEach(key => {
-            if (params[key] !== null && params[key] !== undefined) {
-                url.searchParams.append(key, params[key]);
+        return await response.json();
+    } catch (error) {
+        alert('Error loading data: ' + error.message);
+        throw error;
+    }
+}
+
+// Setup smooth scrolling
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         });
-
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
+    });
+});
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             
