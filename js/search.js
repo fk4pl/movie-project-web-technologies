@@ -105,15 +105,12 @@ function hideAutocomplete() {
 function createAutocompleteItem(movie) {
     const item = document.createElement('div');
     item.className = 'autocomplete-item';
-    
-    const posterUrl = movie.poster_path 
-        ? `${IMG_BASE_URL}${movie.poster_path}` 
-        : 'https://via.placeholder.com/40x60?text=?';
+    const posterUrl = movie.poster_path ? `${IMG_BASE_URL}${movie.poster_path}` : '';
     
     const year = movie.release_date ? movie.release_date.slice(0, 4) : 'Unknown';
     
     item.innerHTML = `
-        <img src="${posterUrl}" alt="${movie.title}" class="autocomplete-poster">
+        ${posterUrl ? `<img src="${posterUrl}" alt="${movie.title}" class="autocomplete-poster">` : ''}
         <div class="autocomplete-info">
             <div class="autocomplete-title">${movie.title}</div>
             <div class="autocomplete-year">${year}</div>
@@ -244,21 +241,17 @@ function displayResults(data) {
 function createMovieCard(movie) {
     const card = document.createElement('div');
     card.className = 'col-md-4 col-sm-6';
-    
-    const posterUrl = movie.poster_path 
-        ? `${IMG_BASE_URL}${movie.poster_path}` 
-        : 'https://via.placeholder.com/500x750?text=No+Image';
+    const posterUrl = movie.poster_path ? `${IMG_BASE_URL}${movie.poster_path}` : '';
     
     const year = movie.release_date ? movie.release_date.slice(0, 4) : 'N/A';
     const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
     
     card.innerHTML = `
         <div class="movie-card" onclick="openMovieDetail(${movie.id})">
-            <img src="${posterUrl}" alt="${movie.title}" loading="lazy">
+            ${posterUrl ? `<img src="${posterUrl}" alt="${movie.title}">` : ''}
             <div class="movie-info">
-                <h6 class="movie-title">${movie.title}</h6>
-                <small class="movie-year">Year: ${year}</small><br>
-                <small class="movie-rating">Rating: ${rating}/10</small>
+                <div class="movie-title">${movie.title}</div>
+                <div class="movie-year">${year}</div>
             </div>
         </div>
     `;
@@ -272,26 +265,14 @@ function openMovieDetail(movieId) {
 
 function showLoading() {
     resultsContainer.innerHTML = `
-        <div class="col-12">
-            <div class="loading-container">
-                <div class="loading-spinner"></div>
-            </div>
-        </div>
-    `;
+        '';
     resultsHeader.style.display = 'none';
     loadMoreContainer.style.display = 'none';
 }
 
 function showNoResults() {
     resultsContainer.innerHTML = `
-        <div class="col-12">
-            <div class="no-results">
-                <i class="bi bi-search"></i>
-                <h4 style="color: #e0e0e0; margin-bottom: 15px;">No Movies Found</h4>
-                <p>Try adjusting your search terms or filters</p>
-            </div>
-        </div>
-    `;
+        '<div>No movies found.</div>';
     resultsHeader.style.display = 'none';
     loadMoreContainer.style.display = 'none';
 }

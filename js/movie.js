@@ -79,45 +79,31 @@ async function fetchMoviesByDirector(directorId) {
     }
 }
 
-// Create movie card HTML
+// Create a simple movie card
 function createMovieCard(movie) {
-    const posterUrl = movie.poster_path 
-        ? `${IMG_BASE_URL}${movie.poster_path}` 
-        : 'https://via.placeholder.com/500x750?text=No+Image';
-    
-    const year = movie.release_date ? movie.release_date.slice(0, 4) : 'N/A';
-    const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
-
+    const posterUrl = movie.poster_path ? `${IMG_BASE_URL}${movie.poster_path}` : '';
+    const year = movie.release_date ? movie.release_date.slice(0, 4) : '';
     return `
         <div class="col-lg-3 col-md-4 col-sm-6">
             <div class="related-movie-card" onclick="navigateToMovie(${movie.id})">
-                <img src="${posterUrl}" alt="${movie.title}" class="related-movie-poster" loading="lazy">
+                ${posterUrl ? `<img src="${posterUrl}" alt="${movie.title}">` : ''}
                 <div class="related-movie-info">
-                    <h6 class="related-movie-title">${movie.title}</h6>
-                    <div class="related-movie-meta">
-                        <span class="related-movie-year">${year}</span>
-                        <span class="related-movie-rating">
-                            <i class="bi bi-star-fill"></i> ${rating}
-                        </span>
-                    </div>
+                    <div class="related-movie-title">${movie.title}</div>
+                    <div class="related-movie-year">${year}</div>
                 </div>
             </div>
         </div>
     `;
 }
 
-// Create cast member card HTML
+// Create a simple cast card
 function createCastCard(person, isDirector = false) {
-    const profileUrl = person.profile_path 
-        ? `${PROFILE_BASE_URL}${person.profile_path}` 
-        : 'https://via.placeholder.com/185x278?text=No+Image';
-    
-    const role = isDirector ? 'Director' : (person.character || person.job || 'Unknown');
-
+    const profileUrl = person.profile_path ? `${PROFILE_BASE_URL}${person.profile_path}` : '';
+    const role = isDirector ? 'Director' : (person.character || person.job || '');
     return `
         <div class="col-lg-2 col-md-3 col-sm-4 col-6">
             <div class="person-card">
-                <img src="${profileUrl}" alt="${person.name}" class="person-image" loading="lazy">
+                ${profileUrl ? `<img src="${profileUrl}" class="person-image" alt="${person.name}">` : ''}
                 <div class="person-info">
                     <div class="person-name">${person.name}</div>
                     <div class="person-role">${role}</div>
@@ -211,41 +197,22 @@ function displayCastAndCrew(credits) {
 
 // Display related movies
 function displayRelatedMovies(movies, containerId, limit = 8) {
-    try {
-        const container = document.getElementById(containerId);
-        
-        if (!movies || movies.length === 0) {
-            container.innerHTML = `
-                <div class="col-12 text-center">
-                    <p style="color: #666; font-size: 1.2rem;">No related movies found.</p>
-                </div>
-            `;
-            return;
-        }
-
-        container.innerHTML = '';
-        const moviesToShow = movies.slice(0, limit);
-        
-        moviesToShow.forEach(movie => {
-            container.innerHTML += createMovieCard(movie);
-        });
-    } catch (error) {
-        console.error('Error displaying related movies:', error);
+    const container = document.getElementById(containerId);
+    if (!movies || movies.length === 0) {
+        container.innerHTML = '<div>No related movies found.</div>';
+        return;
     }
+    container.innerHTML = '';
+    const moviesToShow = movies.slice(0, limit);
+    moviesToShow.forEach(movie => {
+        container.innerHTML += createMovieCard(movie);
+    });
 }
 
-// Show loading spinner
+// No loading spinner needed
 function showLoading(containerId) {
     const container = document.getElementById(containerId);
-    if (container) {
-        container.innerHTML = `
-            <div class="col-12">
-                <div class="loading-spinner">
-                    <div class="spinner"></div>
-                </div>
-            </div>
-        `;
-    }
+    if (container) container.innerHTML = '';
 }
 
 // Load all movie data
@@ -265,7 +232,8 @@ async function loadMovieData() {
             displayMovieDetails(currentMovie);
             document.title = `${currentMovie.title} - Movilar`;
         } else {
-            throw new Error('Movie not found');
+            alert('Movie not found');
+            return;
         }
 
         // Load credits
@@ -306,9 +274,9 @@ async function loadMovieData() {
         }
 
     } catch (error) {
-        console.error('Error loading movie data:', error);
+        alert('There was an error loading the movie details.');
         document.getElementById('movieTitle').textContent = 'Error loading movie';
-        document.getElementById('movieOverview').textContent = 'There was an error loading the movie details. Please try again later.';
+        document.getElementById('movieOverview').textContent = 'There was an error loading the movie details.';
     }
 }
 

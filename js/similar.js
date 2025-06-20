@@ -109,29 +109,20 @@ function createSuggestionItem(movie) {
     const item = document.createElement('div');
     item.className = 'suggestion-item';
     item.dataset.movieId = movie.id;
-    
-    const posterUrl = movie.poster_path 
-        ? `${IMG_BASE_URL}${movie.poster_path}` 
-        : 'https://via.placeholder.com/50x75?text=?';
-    
-    const year = movie.release_date ? movie.release_date.slice(0, 4) : 'Unknown';
-    const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
-    
+    const posterUrl = movie.poster_path ? `${IMG_BASE_URL}${movie.poster_path}` : '';
+    const year = movie.release_date ? movie.release_date.slice(0, 4) : '';
     item.innerHTML = `
-        <img src="${posterUrl}" alt="${movie.title}" class="suggestion-poster">
+        ${posterUrl ? `<img src="${posterUrl}" alt="${movie.title}" class="suggestion-poster">` : ''}
         <div class="suggestion-info">
             <div class="suggestion-title">${movie.title}</div>
             <div class="suggestion-year">${year}</div>
-            <div class="suggestion-rating">Rating: ${rating}/10</div>
         </div>
     `;
-    
     item.addEventListener('mousedown', (e) => {
         e.preventDefault();
         preventHideSuggestions = true;
         selectMovie(movie.id);
     });
-    
     return item;
 }
 
@@ -146,10 +137,10 @@ async function selectMovie(movieId) {
             displaySelectedMovie(movie);
             await loadSimilarMovies(movieId);
         } else {
-            console.error('Failed to fetch movie details');
+            alert('Failed to fetch movie details');
         }
     } catch (error) {
-        console.error('Error selecting movie:', error);
+        alert('Error selecting movie.');
     }
 }
 
@@ -259,29 +250,15 @@ function createSimilarMovieCard(movie) {
     const card = document.createElement('div');
     card.className = 'similar-movie-card';
     card.onclick = () => navigateToMovie(movie.id);
-    
-    const posterUrl = movie.poster_path 
-        ? `${IMG_BASE_URL}${movie.poster_path}` 
-        : 'https://via.placeholder.com/250x350?text=No+Image';
-    
-    const year = movie.release_date ? movie.release_date.slice(0, 4) : 'N/A';
-    const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
-    const similarity = Math.floor(Math.random() * 25) + 75;
-    
+    const posterUrl = movie.poster_path ? `${IMG_BASE_URL}${movie.poster_path}` : '';
+    const year = movie.release_date ? movie.release_date.slice(0, 4) : '';
     card.innerHTML = `
-        <div class="similarity-badge">${similarity}% Match</div>
-        <img src="${posterUrl}" alt="${movie.title}" class="similar-movie-poster">
+        ${posterUrl ? `<img src="${posterUrl}" alt="${movie.title}" class="similar-movie-poster">` : ''}
         <div class="similar-movie-info">
-            <h6 class="similar-movie-title">${movie.title}</h6>
-            <div class="similar-movie-details">
-                <span class="similar-movie-year">${year}</span>
-                <span class="similar-movie-rating">
-                    <i class="bi bi-star-fill"></i> ${rating}
-                </span>
-            </div>
+            <div class="similar-movie-title">${movie.title}</div>
+            <div class="similar-movie-year">${year}</div>
         </div>
     `;
-    
     return card;
 }
 
@@ -296,13 +273,7 @@ function loadMoreSimilarMovies() {
 }
 
 function showNoSimilarMovies() {
-    similarMoviesGrid.innerHTML = `
-        <div class="empty-state" style="grid-column: 1 / -1;">
-            <i class="bi bi-film"></i>
-            <h4 style="color: #e0e0e0; margin-bottom: 15px;">No Similar Movies Found</h4>
-            <p>We couldn't find movies similar to your selection. Try choosing a different movie.</p>
-        </div>
-    `;
+    similarMoviesGrid.innerHTML = '<div>No similar movies found.</div>';
 }
 
 function clearSelection() {
