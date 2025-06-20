@@ -1,9 +1,9 @@
 // API Configuration
-const API_KEY = '8c45f976cf5bf09078e4ad738b6a2127';
-const BASE_URL = 'https://api.themoviedb.org/3';
-const IMG_BASE_URL = 'https://image.tmdb.org/t/p/w500';
-const BG_BASE_URL = 'https://image.tmdb.org/t/p/original';
-const PROFILE_BASE_URL = 'https://image.tmdb.org/t/p/w185';
+const API_KEY = window.Movilar.CONFIG.API_KEY;
+const BASE_URL = window.Movilar.CONFIG.BASE_URL;
+const IMG_BASE_URL = window.Movilar.CONFIG.IMG_BASE_URL;
+const BG_BASE_URL = window.Movilar.CONFIG.BG_BASE_URL;
+const PROFILE_BASE_URL = window.Movilar.CONFIG.PROFILE_BASE_URL;
 
 // Global variables
 let currentMovie = null;
@@ -281,4 +281,5 @@ async function loadMovieData() {
 }
 
 // Initialize page
+document.addEventListener('DOMContentLoaded', loadMovieData);
 document.addEventListener('DOMContentLoaded', loadMovieData);

@@ -1,6 +1,6 @@
-const API_KEY = '8c45f976cf5bf09078e4ad738b6a2127';
-const BASE_URL = 'https://api.themoviedb.org/3';
-const IMG_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+const API_KEY = window.Movilar.CONFIG.API_KEY;
+const BASE_URL = window.Movilar.CONFIG.BASE_URL;
+const IMG_BASE_URL = window.Movilar.CONFIG.IMG_BASE_URL;
 
 let currentPage = 1;
 let totalPages = 1;
