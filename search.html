@@ -51,14 +51,7 @@
             font-size: 1rem;
             padding: 15px 18px 15px 50px;
             border-radius: 25px;
-            transition: all 0.3s ease;
             width: 100%;
-        }
-        
-        .search-input:focus {
-            border-color: #1DB954 !important;
-            box-shadow: 0 0 0 0.2rem rgba(29, 185, 84, 0.25) !important;
-            background: #222 !important;
         }
         
         .search-icon {
@@ -82,11 +75,6 @@
             border-radius: 20px;
             padding: 8px 15px;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .search-btn:hover {
-            background-color: #19a34a;
         }
         
         .autocomplete-dropdown {
@@ -96,8 +84,8 @@
             right: 0;
             background: #1a1a1a;
             border: 1px solid #1DB954;
-            border-radius: 15px;
-            max-height: 300px;
+            border-radius: 10px;
+            max-height: 200px;
             overflow-y: auto;
             z-index: 1000;
             display: none;
@@ -105,19 +93,13 @@
         }
         
         .autocomplete-item {
-            padding: 12px 20px;
+            padding: 10px 15px;
             cursor: pointer;
             border-bottom: 1px solid #333;
             color: #e0e0e0;
-            transition: background-color 0.2s ease;
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-        
-        .autocomplete-item:hover {
-            background-color: #2a2a2a;
-            color: #1DB954;
         }
         
         .autocomplete-item:last-child {
@@ -125,20 +107,15 @@
         }
         
         .autocomplete-poster {
-            width: 40px;
-            height: 60px;
+            width: 30px;
+            height: 45px;
             object-fit: cover;
-            border-radius: 5px;
+            border-radius: 3px;
             flex-shrink: 0;
-        }
-        
-        .autocomplete-info {
-            flex: 1;
         }
         
         .autocomplete-title {
             font-weight: 600;
-            margin-bottom: 3px;
             font-size: 0.95rem;
         }
         
@@ -149,37 +126,28 @@
         
         .filters-section {
             background: #0a0a0a;
-            padding: 40px 0;
+            padding: 30px 0;
         }
         
         .filter-card {
             background: #1a1a1a;
             border: 1px solid #333;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .filter-card:hover {
-            border-color: #1DB954;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
         }
         
         .filter-title {
             color: #1DB954;
             font-weight: 600;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-        }
-        
-        .filter-group {
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            font-size: 1rem;
         }
         
         .filter-label {
             color: #e0e0e0;
             font-weight: 500;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             display: block;
         }
         
@@ -190,27 +158,8 @@
             border-radius: 8px;
         }
         
-        .form-select:focus {
-            border-color: #1DB954 !important;
-            box-shadow: 0 0 0 0.2rem rgba(29, 185, 84, 0.25) !important;
-        }
-        
         .form-range {
             background: transparent;
-        }
-        
-        .form-range::-webkit-slider-track {
-            background: #1DB954;
-            height: 4px;
-            border-radius: 2px;
-        }
-        
-        .form-range::-webkit-slider-thumb {
-            background: #1DB954;
-            border: 2px solid #111;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
         }
         
         .range-value {
@@ -219,89 +168,43 @@
             font-size: 0.9rem;
         }
         
-        .results-section {
-            padding: 40px 0;
-        }
-        
         .results-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 10px;
         }
         
         .results-count {
             color: #e0e0e0;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
         
         .sort-dropdown {
             background: #1a1a1a !important;
             border: 1px solid #333 !important;
             color: #e0e0e0 !important;
-            border-radius: 20px;
-            padding: 8px 15px;
+            border-radius: 10px;
+            padding: 6px 12px;
         }
         
         .no-results {
             text-align: center;
-            padding: 80px 20px;
+            padding: 40px 10px;
             color: #666;
         }
         
-        .no-results i {
-            font-size: 4rem;
-            color: #444;
-            margin-bottom: 20px;
-        }
-        
-        .loading-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 200px;
-        }
-        
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid #333;
-            border-top: 3px solid #1DB954;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
         @media (max-width: 768px) {
-            .search-hero {
-                padding: 30px 0 50px 0;
-            }
-            
-            .search-input {
-                font-size: 0.95rem;
-                padding: 12px 15px 12px 45px;
-            }
-            
-            .results-header {
-                flex-direction: column;
-                align-items: stretch;
-            }
+            .search-hero { padding: 30px 0 40px 0; }
+            .search-input { font-size: 0.95rem; padding: 12px 15px 12px 45px; }
+            .results-header { flex-direction: column; align-items: stretch; }
         }
         
         @media (max-width: 576px) {
-            .filter-card {
-                padding: 15px;
-            }
-            
-            .search-input {
-                padding: 10px 12px 10px 40px;
-            }
+            .filter-card { padding: 10px; }
+            .search-input { padding: 10px 12px 10px 40px; }
         }
     </style>
 </head>

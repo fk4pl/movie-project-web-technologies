@@ -41,13 +41,6 @@
             font-size: 1rem;
             padding: 12px 18px 12px 45px;
             border-radius: 25px;
-            transition: all 0.3s ease;
-        }
-        
-        .movie-search-input:focus {
-            border-color: #1DB954 !important;
-            box-shadow: 0 0 0 0.2rem rgba(29, 185, 84, 0.25) !important;
-            background: #222 !important;
         }
         
         .search-icon {
@@ -67,8 +60,8 @@
             right: 0;
             background: #1a1a1a;
             border: 1px solid #1DB954;
-            border-radius: 15px;
-            max-height: 350px;
+            border-radius: 10px;
+            max-height: 200px;
             overflow-y: auto;
             z-index: 1000;
             display: none;
@@ -76,20 +69,13 @@
         }
         
         .suggestion-item {
-            padding: 15px 20px;
+            padding: 10px 15px;
             cursor: pointer;
             border-bottom: 1px solid #333;
             color: #e0e0e0;
-            transition: background-color 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 15px;
-        }
-        
-        .suggestion-item:hover,
-        .suggestion-item.active {
-            background-color: #2a2a2a;
-            color: #1DB954;
+            gap: 10px;
         }
         
         .suggestion-item:last-child {
@@ -97,20 +83,15 @@
         }
         
         .suggestion-poster {
-            width: 50px;
-            height: 75px;
+            width: 40px;
+            height: 60px;
             object-fit: cover;
-            border-radius: 8px;
+            border-radius: 5px;
             flex-shrink: 0;
-        }
-        
-        .suggestion-info {
-            flex: 1;
         }
         
         .suggestion-title {
             font-weight: 600;
-            margin-bottom: 5px;
             font-size: 1rem;
         }
         
@@ -119,142 +100,101 @@
             color: #888;
         }
         
-        .suggestion-rating {
-            color: #1DB954;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-        
-        /* Selected Movie Display */
         .selected-movie-section {
             background: #0a0a0a;
-            padding: 40px 0;
+            padding: 30px 0;
             display: none;
         }
         
         .selected-movie-card {
             background: #1a1a1a;
             border: 2px solid #1DB954;
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 30px;
-            transition: all 0.3s ease;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
         }
         
         .selected-movie-poster {
-            width: 160px;
-            height: 240px;
+            width: 120px;
+            height: 180px;
             object-fit: cover;
-            border-radius: 15px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            border-radius: 10px;
         }
         
         .selected-movie-title {
             color: #1DB954;
             font-weight: 700;
-            font-size: 1.8rem;
-            margin-bottom: 12px;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
         }
         
         .selected-movie-overview {
             color: #e0e0e0;
             font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         
         .selected-movie-meta {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 10px;
         }
         
         .meta-badge {
-            background: rgba(29, 185, 84, 0.2);
+            background: #222;
             color: #1DB954;
-            padding: 5px 12px;
-            border-radius: 15px;
+            padding: 5px 10px;
+            border-radius: 10px;
             font-size: 0.85rem;
-            font-weight: 500;
         }
         
         .change-movie-btn {
             background: transparent;
             border: 1px solid #666;
             color: #e0e0e0;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 6px 12px;
+            border-radius: 15px;
             font-size: 0.9rem;
-            transition: all 0.2s ease;
         }
         
-        .change-movie-btn:hover {
-            border-color: #1DB954;
-            color: #1DB954;
-        }
-        
-        /* Similar Movies Section */
         .similar-movies-section {
-            padding: 40px 0;
+            padding: 30px 0;
             display: none;
         }
         
         .similar-movies-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
         }
         
         .similar-movie-card {
             background: #1a1a1a;
-            border-radius: 15px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            cursor: pointer;
+            border-radius: 10px;
             border: 1px solid #333;
+            cursor: pointer;
             position: relative;
-        }
-        
-        .similar-movie-card:hover {
-            transform: translateY(-10px);
-            border-color: #1DB954;
-            box-shadow: 0 15px 30px rgba(29, 185, 84, 0.3);
+            box-shadow: none;
+            transition: none;
         }
         
         .similar-movie-poster {
             width: 100%;
-            height: 300px;
+            height: 200px;
             object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-        
-        .similar-movie-card:hover .similar-movie-poster {
-            transform: scale(1.05);
         }
         
         .similar-movie-info {
-            padding: 15px;
+            padding: 10px;
         }
         
         .similar-movie-title {
-            color: #ffffff;
+            color: #fff;
             font-weight: 600;
-            margin-bottom: 8px;
             font-size: 1rem;
-            line-height: 1.3;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        
-        .similar-movie-details {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
         
         .similar-movie-year {
@@ -264,112 +204,26 @@
         }
         
         .similar-movie-rating {
-            background: rgba(29, 185, 84, 0.2);
+            background: #222;
             color: #1DB954;
             padding: 4px 8px;
-            border-radius: 12px;
+            border-radius: 10px;
             font-size: 0.8rem;
-            font-weight: 600;
         }
         
-        .similarity-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: linear-gradient(45deg, #1DB954, #17a047);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-        
-        /* Loading States */
-        .loading-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 200px;
-        }
-        
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid #333;
-            border-top: 3px solid #1DB954;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 80px 20px;
-            color: #666;
-        }
-        
-        .empty-state i {
-            font-size: 4rem;
-            color: #444;
-            margin-bottom: 20px;
-        }
-        
-        /* Responsive Design */
         @media (max-width: 768px) {
-            .similar-hero {
-                padding: 30px 0 50px 0;
-            }
-            
-            .movie-search-input {
-                font-size: 0.95rem;
-                padding: 10px 15px 10px 40px;
-            }
-            
-            .selected-movie-title {
-                font-size: 1.5rem;
-            }
-            
-            .similar-movies-grid {
-                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-                gap: 15px;
-            }
-            
-            .similar-movie-poster {
-                height: 250px;
-            }
+            .similar-hero { padding: 30px 0 40px 0; }
+            .movie-search-input { font-size: 0.95rem; padding: 10px 15px 10px 40px; }
+            .selected-movie-title { font-size: 1.1rem; }
+            .similar-movies-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+            .similar-movie-poster { height: 120px; }
         }
         
         @media (max-width: 576px) {
-            .selected-movie-card {
-                padding: 20px;
-            }
-            
-            .selected-movie-poster {
-                width: 140px;
-                height: 210px;
-            }
-            
-            .selected-movie-title {
-                font-size: 1.3rem;
-            }
-            
-            .similar-movies-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 12px;
-            }
-            
-            .similar-movie-poster {
-                height: 200px;
-            }
-            
-            .similar-movie-info {
-                padding: 12px;
-            }
+            .selected-movie-card { padding: 10px; }
+            .selected-movie-poster { width: 80px; height: 120px; }
+            .similar-movie-poster { height: 80px; }
+            .similar-movie-info { padding: 6px; }
         }
     </style>
 </head>
@@ -467,16 +321,14 @@
                 <i class="bi bi-heart me-2"></i>Movies You Might Love
             </h2>
             <p class="text-center mb-4" style="color: #e0e0e0;">
-                Based on your selection, here are similar movies with matching themes, genres, and style
+                Based on your selection, here are similar movies
             </p>
-            
             <div id="similarMoviesGrid" class="similar-movies-grid">
                 <!-- Similar movies will be populated here -->
             </div>
-            
             <div class="text-center mt-5">
                 <button class="btn btn-movilar-green btn-lg" id="loadMoreSimilar" style="display: none;">
-                    <i class="bi bi-plus-circle me-2"></i>Discover More Similar Movies
+                    Discover More Similar Movies
                 </button>
             </div>
         </div>
