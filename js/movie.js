@@ -1,3 +1,7 @@
+/**
+ * Movie Detail Page JavaScript
+ */
+
 // API Configuration
 const API_KEY = window.Movilar.CONFIG.API_KEY;
 const BASE_URL = window.Movilar.CONFIG.BASE_URL;
@@ -9,6 +13,7 @@ const PROFILE_BASE_URL = window.Movilar.CONFIG.PROFILE_BASE_URL;
 let currentMovie = null;
 let movieCredits = null;
 let movieId = null;
+let movieVideos = null;
 
 // Get movie ID from URL parameters
 function getMovieId() {
@@ -16,106 +21,44 @@ function getMovieId() {
     return urlParams.get('id');
 }
 
-// Fetch movie details
-async function fetchMovieDetails(id) {
+// Fetch movie videos (trailers)
+async function fetchMovieVideos(id) {
     try {
-        const response = await fetch(`${BASE_URL}/movie/${id}?api_key=${API_KEY}&language=en-US`);
-        if (!response.ok) throw new Error('Movie not found');
+        const response = await fetch(`${CONFIG.BASE_URL}/movie/${id}/videos?api_key=${CONFIG.API_KEY}`);
+        if (!response.ok) throw new Error('Videos not found');
         return await response.json();
     } catch (error) {
-        console.error('Error fetching movie details:', error);
+        console.error('Error fetching movie videos:', error);
         return null;
     }
 }
 
-// Fetch movie credits
-async function fetchMovieCredits(id) {
-    try {
-        const response = await fetch(`${BASE_URL}/movie/${id}/credits?api_key=${API_KEY}`);
-        if (!response.ok) throw new Error('Credits not found');
-        return await response.json();
-    } catch (error) {
-        console.error('Error fetching movie credits:', error);
-        return null;
+// Setup trailer functionality
+function setupTrailer(videos) {
+    const watchTrailerBtn = document.getElementById('watchTrailerBtn');
+    const trailerModal = new bootstrap.Modal(document.getElementById('trailerModal'));
+    const trailerFrame = document.getElementById('trailerFrame');
+    
+    if (videos && videos.results) {
+        // Find the first trailer
+        const trailer = videos.results.find(video => 
+            video.type === 'Trailer' && video.site === 'YouTube'
+        );
+        
+        if (trailer) {
+            watchTrailerBtn.style.display = 'inline-flex';
+            watchTrailerBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                trailerFrame.src = `https://www.youtube.com/embed/${trailer.key}?autoplay=1`;
+                trailerModal.show();
+            });
+            
+            // Clear iframe when modal is closed
+            document.getElementById('trailerModal').addEventListener('hidden.bs.modal', () => {
+                trailerFrame.src = '';
+            });
+        }
     }
-}
-
-// Fetch similar movies
-async function fetchSimilarMovies(id) {
-    try {
-        const response = await fetch(`${BASE_URL}/movie/${id}/similar?api_key=${API_KEY}&language=en-US&page=1`);
-        if (!response.ok) throw new Error('Similar movies not found');
-        const data = await response.json();
-        return data.results || [];
-    } catch (error) {
-        console.error('Error fetching similar movies:', error);
-        return [];
-    }
-}
-
-// Fetch movies by actor
-async function fetchMoviesByActor(actorId) {
-    try {
-        const response = await fetch(`${BASE_URL}/person/${actorId}/movie_credits?api_key=${API_KEY}&language=en-US`);
-        if (!response.ok) throw new Error('Actor movies not found');
-        const data = await response.json();
-        return data.cast || [];
-    } catch (error) {
-        console.error('Error fetching actor movies:', error);
-        return [];
-    }
-}
-
-// Fetch movies by director
-async function fetchMoviesByDirector(directorId) {
-    try {
-        const response = await fetch(`${BASE_URL}/person/${directorId}/movie_credits?api_key=${API_KEY}&language=en-US`);
-        if (!response.ok) throw new Error('Director movies not found');
-        const data = await response.json();
-        return data.crew ? data.crew.filter(movie => movie.job === 'Director') : [];
-    } catch (error) {
-        console.error('Error fetching director movies:', error);
-        return [];
-    }
-}
-
-// Create a simple movie card
-function createMovieCard(movie) {
-    const posterUrl = movie.poster_path ? `${IMG_BASE_URL}${movie.poster_path}` : '';
-    const year = movie.release_date ? movie.release_date.slice(0, 4) : '';
-    return `
-        <div class="col-lg-3 col-md-4 col-sm-6">
-            <div class="related-movie-card" onclick="navigateToMovie(${movie.id})">
-                ${posterUrl ? `<img src="${posterUrl}" alt="${movie.title}">` : ''}
-                <div class="related-movie-info">
-                    <div class="related-movie-title">${movie.title}</div>
-                    <div class="related-movie-year">${year}</div>
-                </div>
-            </div>
-        </div>
-    `;
-}
-
-// Create a simple cast card
-function createCastCard(person, isDirector = false) {
-    const profileUrl = person.profile_path ? `${PROFILE_BASE_URL}${person.profile_path}` : '';
-    const role = isDirector ? 'Director' : (person.character || person.job || '');
-    return `
-        <div class="col-lg-2 col-md-3 col-sm-4 col-6">
-            <div class="person-card">
-                ${profileUrl ? `<img src="${profileUrl}" class="person-image" alt="${person.name}">` : ''}
-                <div class="person-info">
-                    <div class="person-name">${person.name}</div>
-                    <div class="person-role">${role}</div>
-                </div>
-            </div>
-        </div>
-    `;
-}
-
-// Navigate to another movie
-function navigateToMovie(id) {
-    window.location.href = `movie.html?id=${id}`;
 }
 
 // Display movie details
@@ -123,15 +66,28 @@ function displayMovieDetails(movie) {
     try {
         // Set background image
         if (movie.backdrop_path) {
-            document.getElementById('movieHero').style.backgroundImage = 
-                `url('${BG_BASE_URL}${movie.backdrop_path}')`;
+            const bgImg = new Image();
+            bgImg.onload = () => {
+                document.getElementById('movieHero').style.backgroundImage = 
+                    `url('${CONFIG.BG_BASE_URL}${movie.backdrop_path}')`;
+            };
+            bgImg.onerror = () => {
+                document.getElementById('movieHero').style.background = 
+                    'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)';
+            };
+            bgImg.src = `${CONFIG.BG_BASE_URL}${movie.backdrop_path}`;
         }
 
         // Set poster
+        const posterImg = document.getElementById('moviePoster');
         const posterUrl = movie.poster_path 
-            ? `${IMG_BASE_URL}${movie.poster_path}` 
-            : 'https://via.placeholder.com/500x750?text=No+Image';
-        document.getElementById('moviePoster').src = posterUrl;
+            ? `${CONFIG.IMG_BASE_URL}${movie.poster_path}` 
+            : 'https://via.placeholder.com/500x750/1a1a1a/1DB954?text=🎬%0ANo%20Poster';
+        
+        posterImg.src = posterUrl;
+        posterImg.onerror = () => {
+            posterImg.src = 'https://via.placeholder.com/500x750/1a1a1a/1DB954?text=🎬%0ANo%20Poster';
+        };
 
         // Set basic info
         document.getElementById('movieTitle').textContent = movie.title || 'Unknown Title';
@@ -142,7 +98,7 @@ function displayMovieDetails(movie) {
         const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
         document.querySelector('#movieRating span').textContent = `${rating}/10`;
 
-        // Set meta information
+        // Set meta information (removed budget and revenue)
         const metaContainer = document.getElementById('movieMeta');
         metaContainer.innerHTML = '';
 
@@ -156,10 +112,6 @@ function displayMovieDetails(movie) {
 
         if (movie.vote_count) {
             metaContainer.innerHTML += `<span class="meta-item"><i class="bi bi-people me-2"></i>${movie.vote_count.toLocaleString()} votes</span>`;
-        }
-
-        if (movie.budget && movie.budget > 0) {
-            metaContainer.innerHTML += `<span class="meta-item"><i class="bi bi-currency-dollar me-2"></i>$${movie.budget.toLocaleString()}</span>`;
         }
 
         // Set genres
@@ -195,24 +147,99 @@ function displayCastAndCrew(credits) {
     }
 }
 
-// Display related movies
-function displayRelatedMovies(movies, containerId, limit = 8) {
-    const container = document.getElementById(containerId);
-    if (!movies || movies.length === 0) {
-        container.innerHTML = '<div>No related movies found.</div>';
-        return;
-    }
-    container.innerHTML = '';
-    const moviesToShow = movies.slice(0, limit);
-    moviesToShow.forEach(movie => {
-        container.innerHTML += createMovieCard(movie);
-    });
+// Create cast member card
+function createCastCard(person, isDirector = false) {
+    const profileUrl = person.profile_path 
+        ? `${CONFIG.PROFILE_BASE_URL}${person.profile_path}` 
+        : 'https://via.placeholder.com/185x278/1a1a1a/1DB954?text=👤%0ANo%20Photo';
+    
+    const role = isDirector ? 'Director' : (person.character || person.job || 'Unknown');
+
+    return `
+        <div class="col-lg-2 col-md-3 col-sm-4 col-6">
+            <div class="person-card">
+                <img src="${profileUrl}" 
+                     alt="${person.name}" 
+                     class="person-image" 
+                     loading="lazy"
+                     onerror="this.src='https://via.placeholder.com/185x278/1a1a1a/1DB954?text=👤%0ANo%20Photo'">
+                <div class="person-info">
+                    <div class="person-name">${person.name}</div>
+                    <div class="person-role">${role}</div>
+                </div>
+            </div>
+        </div>
+    `;
 }
 
-// No loading spinner needed
+// Display related movies
+function displayRelatedMovies(movies, containerId, limit = 8) {
+    try {
+        const container = document.getElementById(containerId);
+        
+        if (!movies || movies.length === 0) {
+            container.innerHTML = `
+                <div class="col-12 text-center">
+                    <p style="color: #666; font-size: 1.2rem;">No related movies found.</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = '';
+        const moviesToShow = movies.slice(0, limit);
+        
+        moviesToShow.forEach(movie => {
+            container.innerHTML += createMovieCard(movie);
+        });
+    } catch (error) {
+        console.error('Error displaying related movies:', error);
+    }
+}
+
+// Create movie card
+function createMovieCard(movie) {
+    const posterUrl = movie.poster_path 
+        ? `${CONFIG.IMG_BASE_URL}${movie.poster_path}` 
+        : 'https://via.placeholder.com/500x750/1a1a1a/1DB954?text=🎬%0ANo%20Poster';
+    
+    const year = movie.release_date ? movie.release_date.slice(0, 4) : 'N/A';
+    const rating = movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A';
+
+    return `
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="related-movie-card" onclick="window.location.href='movie.html?id=${movie.id}'" style="cursor: pointer;">
+                <img src="${posterUrl}" 
+                     alt="${movie.title}" 
+                     class="related-movie-poster" 
+                     loading="lazy"
+                     onerror="this.src='https://via.placeholder.com/500x750/1a1a1a/1DB954?text=🎬%0ANo%20Poster'">
+                <div class="related-movie-info">
+                    <h6 class="related-movie-title">${movie.title}</h6>
+                    <div class="related-movie-meta">
+                        <span class="related-movie-year">${year}</span>
+                        <span class="related-movie-rating">
+                            <i class="bi bi-star-fill"></i> ${rating}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Show loading spinner
 function showLoading(containerId) {
     const container = document.getElementById(containerId);
-    if (container) container.innerHTML = '';
+    if (container) {
+        container.innerHTML = `
+            <div class="col-12">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        `;
+    }
 }
 
 // Load all movie data
@@ -227,45 +254,42 @@ async function loadMovieData() {
 
     try {
         // Load basic movie details
-        currentMovie = await fetchMovieDetails(movieId);
+        currentMovie = await Movilar.ApiService.getMovie(movieId);
         if (currentMovie) {
             displayMovieDetails(currentMovie);
             document.title = `${currentMovie.title} - Movilar`;
         } else {
-            alert('Movie not found');
-            return;
+            throw new Error('Movie not found');
+        }
+
+        // Load movie videos
+        movieVideos = await fetchMovieVideos(movieId);
+        if (movieVideos) {
+            setupTrailer(movieVideos);
         }
 
         // Load credits
-        movieCredits = await fetchMovieCredits(movieId);
+        movieCredits = await Movilar.ApiService.getMovieCredits(movieId);
         if (movieCredits) {
             displayCastAndCrew(movieCredits);
         }
 
         // Load similar movies
         showLoading('similarMoviesContainer');
-        const similarMovies = await fetchSimilarMovies(movieId);
-        displayRelatedMovies(similarMovies, 'similarMoviesContainer');
-
-        // Load movies by same main actor
-        if (movieCredits && movieCredits.cast.length > 0) {
-            showLoading('sameActorMoviesContainer');
-            const mainActor = movieCredits.cast[0];
-            const actorMovies = await fetchMoviesByActor(mainActor.id);
-            const filteredActorMovies = actorMovies.filter(movie => movie.id != movieId);
-            displayRelatedMovies(filteredActorMovies, 'sameActorMoviesContainer');
-        } else {
-            displayRelatedMovies([], 'sameActorMoviesContainer');
-        }
+        const similarMoviesData = await Movilar.ApiService.getSimilarMovies(movieId);
+        displayRelatedMovies(similarMoviesData.results, 'similarMoviesContainer');
 
         // Load movies by same director
         if (movieCredits) {
             const director = movieCredits.crew.find(person => person.job === 'Director');
             if (director) {
                 showLoading('sameDirectorMoviesContainer');
-                const directorMovies = await fetchMoviesByDirector(director.id);
-                const filteredDirectorMovies = directorMovies.filter(movie => movie.id != movieId);
-                displayRelatedMovies(filteredDirectorMovies, 'sameDirectorMoviesContainer');
+                // Fetch director's other movies
+                const directorResponse = await fetch(`${CONFIG.BASE_URL}/person/${director.id}/movie_credits?api_key=${CONFIG.API_KEY}`);
+                const directorData = await directorResponse.json();
+                const directorMovies = directorData.crew ? 
+                    directorData.crew.filter(movie => movie.job === 'Director' && movie.id != movieId) : [];
+                displayRelatedMovies(directorMovies, 'sameDirectorMoviesContainer');
             } else {
                 displayRelatedMovies([], 'sameDirectorMoviesContainer');
             }
@@ -274,10 +298,11 @@ async function loadMovieData() {
         }
 
     } catch (error) {
-        alert('There was an error loading the movie details.');
+        console.error('Error loading movie data:', error);
         document.getElementById('movieTitle').textContent = 'Error loading movie';
-        document.getElementById('movieOverview').textContent = 'There was an error loading the movie details.';
+        document.getElementById('movieOverview').textContent = 'There was an error loading the movie details. Please try again later.';
     }
 }
 
+// Initialize page
 document.addEventListener('DOMContentLoaded', loadMovieData);
