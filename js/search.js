@@ -264,15 +264,13 @@ function openMovieDetail(movieId) {
 }
 
 function showLoading() {
-    resultsContainer.innerHTML = `
-        '';
+    resultsContainer.innerHTML = '';
     resultsHeader.style.display = 'none';
     loadMoreContainer.style.display = 'none';
 }
 
 function showNoResults() {
-    resultsContainer.innerHTML = `
-        '<div>No movies found.</div>';
+    resultsContainer.innerHTML = '<div>No movies found.</div>';
     resultsHeader.style.display = 'none';
     loadMoreContainer.style.display = 'none';
 }

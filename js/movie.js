@@ -280,6 +280,4 @@ async function loadMovieData() {
     }
 }
 
-// Initialize page
-document.addEventListener('DOMContentLoaded', loadMovieData);
 document.addEventListener('DOMContentLoaded', loadMovieData);
