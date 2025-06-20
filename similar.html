@@ -39,8 +39,20 @@
             border: 2px solid #333 !important;
             color: #e0e0e0 !important;
             font-size: 1rem;
-            padding: 12px 18px 12px 45px;
+            padding: 15px 18px 15px 50px;
             border-radius: 25px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .movie-search-input:focus {
+            border-color: #1DB954 !important;
+            box-shadow: 0 0 0 0.2rem rgba(29, 185, 84, 0.25) !important;
+            background: #222 !important;
+        }
+        
+        .movie-search-input::placeholder {
+            color: #888 !important;
         }
         
         .search-icon {
@@ -281,12 +293,6 @@
                     </div>
                 </div>
                 
-                <div class="text-center">
-                    <p style="color: #888; font-size: 0.9rem;">
-                        <i class="bi bi-lightbulb me-2"></i>
-                        Try popular movies like "The Dark Knight", "Inception", or "Avengers"
-                    </p>
-                </div>
             </div>
         </div>
     </section>
